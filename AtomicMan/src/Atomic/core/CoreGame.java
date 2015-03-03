@@ -30,8 +30,8 @@ public abstract class CoreGame {
 		canvas.addKeyListener(input);
 	}
 	
-	protected void createLevel(Level level){
-		this.level = new Level();
+	protected void createLevel(){
+		this.level = new Level(window);
 		scene.add(level);
 	}
 	
