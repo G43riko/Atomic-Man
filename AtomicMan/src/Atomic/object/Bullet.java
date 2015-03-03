@@ -34,7 +34,6 @@ public class Bullet {
 	
 	public void render(Graphics2D g2){
 		g2.setColor(color);
-		System.out.println(pos);
 		g2.fillRect(pos.getXi()-level.getOffset().getXi(), pos.getYi()-level.getOffset().getYi(), 5, 5);
 	}
 
