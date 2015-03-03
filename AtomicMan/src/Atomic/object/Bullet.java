@@ -20,14 +20,15 @@ public class Bullet {
 		pos = level.getPlayer().getPosition();
 		color = GColor.randomize(100, Color.YELLOW);
 		this.dir = dir;
-		speed = 4;
+		speed = 15;
 		size = 5;
+		dead = false;
 	}
 	
 	public void update(float delta){
 		pos = pos.add(dir.mul(speed));
 		
-		if(pos.getX() + size <= 0 || pos.getX() -size >= Map.NUM_X * Block.WIDTH || pos.getY() + size <= 0 || pos.getY() -size >= Map.NUM_Y * Block.HEIGHT){
+		if(pos.getX() + size <= 0 || pos.getX() - size >= Map.NUM_X * Block.WIDTH || pos.getY() + size <= 0 || pos.getY() - size >= Map.NUM_Y * Block.HEIGHT){
 			dead = true;
 		}
 	}

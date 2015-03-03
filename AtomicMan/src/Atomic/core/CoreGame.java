@@ -1,5 +1,6 @@
 package Atomic.core;
 
+import java.awt.AlphaComposite;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,6 +11,7 @@ import Atomic.component.Window;
 import Atomic.object.Block;
 import Atomic.object.GameObject;
 import Atomic.object.Level;
+import Atomic.object.Log;
 import Atomic.object.Map;
 
 public abstract class CoreGame {
@@ -20,6 +22,7 @@ public abstract class CoreGame {
 	private Canvas canvas;
 	private Level level;
 	public  Input input;
+	private Log log;
 	private ArrayList<GameObject> scene = new ArrayList<GameObject>();
 	
 	public abstract void init();
@@ -29,6 +32,7 @@ public abstract class CoreGame {
 		canvas = new Canvas();
 		window.add(canvas);
 		input = new Input();
+		log = new Log(level);
 		canvas.addKeyListener(input);
 		canvas.addMouseListener(input);
 		canvas.addMouseMotionListener(input);
@@ -37,6 +41,7 @@ public abstract class CoreGame {
 	protected void createLevel(){
 		this.level = new Level(canvas);
 		scene.add(level);
+		log.setLevel(level);
 	}
 	
 	public void start(float fps){
@@ -74,13 +79,17 @@ public abstract class CoreGame {
 	private void render(){
 		//g2.setColor(level.getBackgroundColor());
 		//g2.fillRect(0, 0, window.getWidth(), window.getHeight());
-
+		
+		
+//		AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f);
+//		g2.setComposite(ac);
+		
 		g2.drawImage(level.getBackgroundImage(), -level.getOffset().getXi(), -level.getOffset().getYi(), Map.NUM_X*Block.WIDTH, Map.NUM_Y*Block.HEIGHT, null);
 		
 		for(GameObject g :scene){
 			g.render(g2);
 		}
-		
+		log.render(g2);
 	}
 	
 	private void mainLoop(){
@@ -102,7 +111,8 @@ public abstract class CoreGame {
 			prepare();
 			frames++;
 			if(System.currentTimeMillis()-startTime >= 1000){
-				System.out.println("frames: "+frames+" ticks: "+ticks/*+" startTime: "+(System.currentTimeMillis()-startTime)*/);
+				//System.out.println("frames: "+frames+" ticks: "+ticks/*+" startTime: "+(System.currentTimeMillis()-startTime)*/);
+				log.setFps(frames);
 				ticks = 0;
 				frames = 0;
 				startTime = System.currentTimeMillis();

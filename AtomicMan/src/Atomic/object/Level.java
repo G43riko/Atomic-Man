@@ -64,14 +64,28 @@ public class Level extends GameObject{
 		for(Enemy e: enemies){
 			e.update(delta);
 		}
+		
+		
 		ArrayList<Bullet> forRemove = new ArrayList<Bullet>();
 		for(Bullet b: bullets){
 			b.update(delta);
-//			if(b.isDead()){
-//				forRemove.add(b);
-//			}
+			if(b.isDead()){
+				forRemove.add(b);
+			}
 		}
-//		bullets.removeAll(bullets);
+		bullets.removeAll(forRemove);
+		
+		
+//		for(int i=0 ; i<bullets.size() ; i++){
+//			Bullet b = bullets.get(i);
+//			b.update(delta);
+//			if(b.isDead()){
+//				bullets.remove(b);
+//				i--;
+//			}
+//		}
+		
+		
 	}
 	
 	public void addBullet(Bullet b){
@@ -112,5 +126,13 @@ public class Level extends GameObject{
 
 	public Player getPlayer() {
 		return player;
+	}
+
+	public int getNumOfEnemies(){
+		return enemies.size();
+	}
+	
+	public int getNumOfBullets(){
+		return bullets.size();
 	}
 }

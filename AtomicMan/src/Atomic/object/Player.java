@@ -36,8 +36,9 @@ public class Player extends GameObject{
 			position = position.add(new Vector(speed*delta,0));
 		}
 		
+		
 		if(input.isMouseDown(1)){
-			Vector realMousePos = input.getMousePos().sub(level.getOffset());
+			Vector realMousePos = input.getMousePos().add(level.getOffset());
 			level.addBullet(new Bullet(level, realMousePos.sub(position).Normalized()));
 		}
 	}
