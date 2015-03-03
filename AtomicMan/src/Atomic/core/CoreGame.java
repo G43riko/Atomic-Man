@@ -6,9 +6,11 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 
-import Atomic.component.Level;
 import Atomic.component.Window;
+import Atomic.object.Block;
 import Atomic.object.GameObject;
+import Atomic.object.Level;
+import Atomic.object.Map;
 
 public abstract class CoreGame {
 	private boolean isRunning;
@@ -28,10 +30,12 @@ public abstract class CoreGame {
 		window.add(canvas);
 		input = new Input();
 		canvas.addKeyListener(input);
+		canvas.addMouseListener(input);
+		canvas.addMouseMotionListener(input);
 	}
 	
 	protected void createLevel(){
-		this.level = new Level(window);
+		this.level = new Level(canvas);
 		scene.add(level);
 	}
 	
@@ -68,8 +72,10 @@ public abstract class CoreGame {
 	}
 	
 	private void render(){
-		g2.setColor(level.getBackgroundColor());
-		g2.fillRect(0, 0, window.getWidth(), window.getHeight());
+		//g2.setColor(level.getBackgroundColor());
+		//g2.fillRect(0, 0, window.getWidth(), window.getHeight());
+
+		g2.drawImage(level.getBackgroundImage(), -level.getOffset().getXi(), -level.getOffset().getYi(), Map.NUM_X*Block.WIDTH, Map.NUM_Y*Block.HEIGHT, null);
 		
 		for(GameObject g :scene){
 			g.render(g2);
