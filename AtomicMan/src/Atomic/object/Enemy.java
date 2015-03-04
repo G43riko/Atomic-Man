@@ -23,7 +23,7 @@ public class Enemy  extends GameObject{
 	}
 	
 	public void update(float delta){
-		pos = pos.add(dir.mul(speed));
+		pos = pos.add(dir.mul(speed*delta));
 		
 		if(pos.getX() <= 0 || pos.getX() + Block.WIDTH >= Map.NUM_X * Block.WIDTH){
 			dir = dir.mul(new Vector(-1,1));

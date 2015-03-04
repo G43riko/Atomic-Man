@@ -19,7 +19,7 @@ public class Map extends GameObject{
 		mapa = new Block[NUM_X][NUM_Y];
 		for(int i=0 ; i<NUM_X ; i++){
 			for(int j=0 ; j<NUM_Y ; j++){
-				mapa[i][j] = new Block(new Vector(Block.WIDTH*i, Block.HEIGHT*j), (int)(Math.random()*5),level);
+				mapa[i][j] = new Block(new Vector(Block.WIDTH*i, Block.HEIGHT*j), (int)(Math.random()*1.3f),level);
 			}
 		}
 	}
@@ -30,5 +30,18 @@ public class Map extends GameObject{
 				mapa[i][j].render(g2);
 			}
 		}
+	}
+	
+	public boolean isCollision(Vector p){
+		Vector playerPos = p.div(new Vector(Block.WIDTH, Block.HEIGHT));
+		if(mapa[playerPos.getXi()][playerPos.getYi()].getType()==0){
+			return false;
+		}
+		return true;
+	}
+	
+	public Block get(Vector p){
+		Vector playerPos = p.div(new Vector(Block.WIDTH, Block.HEIGHT));
+		return mapa[playerPos.getXi()][playerPos.getYi()];
 	}
 }

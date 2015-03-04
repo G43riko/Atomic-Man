@@ -14,20 +14,24 @@ public class Log extends GameObject{
 	public void render(Graphics2D g2){
 		if(level==null)
 			return;
-		String s0 = "FPS: "+fps;
-		String s1 = "Nepriatelove: "+level.getNumOfEnemies();
-		String s2 = "Striel: "+level.getNumOfBullets();
+		String[] logs = new String[]{"FPS: "+fps,
+									 "Nepriatelove: "+level.getNumOfEnemies(),
+									 "Striel: "+level.getNumOfBullets()
+								};
 		
-		int max = Math.max(s0.length(), Math.max(s1.length(), s2.length())) * 6;
-		
+		int max = logs[0].length();
+    	for(int i=1 ; i<logs.length ; i++)
+    		if(logs[i].length() > max)
+    			max = logs[i].length();
 		
 		g2.setColor(new Color(0,0,0,127));
-		g2.fillRect(0, 0, max, 30);
+		g2.fillRect(0, 0, max*6, logs.length*10+10);
 		
 		g2.setColor(Color.WHITE);
-		g2.drawString(s0, 0, 10);
-		g2.drawString(s1, 0, 20);
-		g2.drawString(s2, 0, 30);
+		for(int i=0 ; i<logs.length ; i++){
+			g2.drawString(logs[i], 0, i*10+10);
+		}
+		
 	}
 
 	public void setLevel(Level level) {

@@ -8,6 +8,8 @@ import Atomic.util.GColor;
 import Atomic.util.Vector;
 
 public class Player extends GameObject{
+	public final static int WIDTH = 30;
+	public final static int HEIGHT = 30;
 	private Vector position;
 	//private Vector size;
 	private Color color;
@@ -24,17 +26,84 @@ public class Player extends GameObject{
 	
 	public void input(float delta,Input input){
 		if(input.isKeyDown(87)){ //w
-			position = position.add(new Vector(0,-speed*delta));
+			Vector newPos = position.add(new Vector(0,-speed*delta));
+			Block b=null;
+			if(level.getMap().isCollision(newPos))
+				b = level.getMap().get(newPos);
+			
+			if(position.getX()%WIDTH != 0 && b == null && level.getMap().isCollision(newPos.add(new Vector(WIDTH,0))))
+				b = level.getMap().get(newPos.add(new Vector(WIDTH,0)));
+			
+			if(b != null)
+				position.setY(b.getPosition().getY()+Block.HEIGHT);
+			else
+				position = newPos;
 		}
 		if(input.isKeyDown(83)){ //s
-			position = position.add(new Vector(0,speed*delta));
+			Vector newPos = position.add(new Vector(0,speed*delta));
+			Block b=null;
+			if(level.getMap().isCollision(newPos.add(new Vector(0,Block.HEIGHT))))
+				b = level.getMap().get(newPos.add(new Vector(0,Block.HEIGHT)));
+			
+			if(position.getX()%WIDTH != 0 && b == null && level.getMap().isCollision(newPos.add(new Vector(WIDTH,Block.HEIGHT))))
+				b = level.getMap().get(newPos.add(new Vector(WIDTH,Block.HEIGHT)));
+			
+			if(b != null)
+				position.setY(b.getPosition().getY()-HEIGHT);
+			else
+				position = newPos;
 		}
 		if(input.isKeyDown(65)){ //a
-			position = position.add(new Vector(-speed*delta,0));
+			
+			Vector newPos = position.add(new Vector(-speed*delta,0));
+			Block b=null;
+			if(level.getMap().isCollision(newPos))
+				b = level.getMap().get(newPos);
+			
+			if(position.getY()%HEIGHT != 0  && b == null && level.getMap().isCollision(newPos.add(new Vector(0,HEIGHT))))
+				b = level.getMap().get(newPos.add(new Vector(0,HEIGHT)));
+			
+			if(b != null)
+				position.setX(b.getPosition().getX()+Block.WIDTH);
+			else
+				position = newPos;
 		}
 		if(input.isKeyDown(68)){ //d
-			position = position.add(new Vector(speed*delta,0));
+			
+			Vector newPos = position.add(new Vector(speed*delta,0));
+			Block b=null;
+			if(level.getMap().isCollision(newPos.add(new Vector(Block.WIDTH,0))))
+				b = level.getMap().get(newPos.add(new Vector(Block.WIDTH,0)));
+			
+			if(position.getY()%HEIGHT != 0  && b == null && level.getMap().isCollision(newPos.add(new Vector(Block.WIDTH,HEIGHT))))
+				b = level.getMap().get(newPos.add(new Vector(Block.WIDTH,HEIGHT)));
+			
+			if(b != null)
+				position.setX(b.getPosition().getX()-WIDTH);
+			else
+				position = newPos;
 		}
+		
+//		if(input.isKeyDown(87)){ //w
+//			Vector newPos = position.add(new Vector(0,-speed*delta));
+//			if(level.canGo(newPos))
+//				position = newPos;
+//		}
+//		if(input.isKeyDown(83)){ //s
+//			Vector newPos = position.add(new Vector(0,speed*delta));
+//			if(level.canGo(newPos))
+//				position = newPos;
+//		}
+//		if(input.isKeyDown(65)){ //a
+//			Vector newPos = position.add(new Vector(-speed*delta,0));
+//			if(level.canGo(newPos))
+//				position = newPos;
+//		}
+//		if(input.isKeyDown(68)){ //d
+//			Vector newPos = position.add(new Vector(speed*delta,0));
+//			if(level.canGo(newPos))
+//				position = newPos;
+//		}
 		
 		
 		if(input.isMouseDown(1)){
@@ -78,7 +147,7 @@ public class Player extends GameObject{
 	
 	public void render(Graphics2D g2){
 		g2.setColor(color);
-		g2.fillRect(position.getXi()-level.getOffset().getXi(), position.getYi()-level.getOffset().getYi(), Block.WIDTH, Block.HEIGHT);
+		g2.fillRect(position.getXi()-level.getOffset().getXi(), position.getYi()-level.getOffset().getYi(), WIDTH, HEIGHT);
 	}
 
 	public Vector getPosition() {

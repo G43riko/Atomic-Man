@@ -44,7 +44,6 @@ public class Level extends GameObject{
 	
 	public void render(Graphics2D g2){
 		map.render(g2);
-		System.out.println(bullets.size());
 		player.render(g2);
 		for(Enemy e: enemies){
 			e.render(g2);
@@ -84,8 +83,10 @@ public class Level extends GameObject{
 //				i--;
 //			}
 //		}
-		
-		
+	}
+	
+	public boolean canGo(Vector p){
+		return !map.isCollision(p);
 	}
 	
 	public void addBullet(Bullet b){
