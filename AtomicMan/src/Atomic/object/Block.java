@@ -11,6 +11,7 @@ public class Block extends GameObject{
 	public final static int HEIGHT = 40;
 	private Color color;
 	private Level level;
+	private int healt;
 	private int type;
 	private Vector position;
 	
@@ -18,6 +19,7 @@ public class Block extends GameObject{
 		this.level = level;
 		this.position = position;
 		this.type = type;
+		this.healt = 20;
 		color = GColor.randomize(40, Color.GREEN);
 		
 		if(type==0)
@@ -30,6 +32,16 @@ public class Block extends GameObject{
 			color = GColor.randomize(50, Color.CYAN);
 		else if(type == 4)
 			color = GColor.randomize(50, Color.DARK_GRAY);
+	}
+	
+	public void hit(int val){
+		healt-=val;
+		if(healt <= 0)
+			type = 0;
+		
+		color = color.darker();
+		if(color.getRed()==0 && color.getGreen()==0 && color.getBlue()==0)
+			type = 0;
 	}
 	
 	public void render(Graphics2D g2){

@@ -27,84 +27,40 @@ public class Player extends GameObject{
 	public void input(float delta,Input input){
 		if(input.isKeyDown(87)){ //w
 			Vector newPos = position.add(new Vector(0,-speed*delta));
-			Block b=null;
-			if(level.getMap().isCollision(newPos))
-				b = level.getMap().get(newPos);
-			
-			if(position.getX()%WIDTH != 0 && b == null && level.getMap().isCollision(newPos.add(new Vector(WIDTH,0))))
-				b = level.getMap().get(newPos.add(new Vector(WIDTH,0)));
-			
-			if(b != null)
-				position.setY(b.getPosition().getY()+Block.HEIGHT);
+			if(level.getMap().isCollision(newPos) ||
+			  (position.getX()%Block.WIDTH != 0 && (position.getX()+WIDTH)%Block.WIDTH != 0 && level.getMap().isCollision(newPos.add(new Vector(WIDTH,0))))){
+				position.setY(level.getMap().get(newPos).getPosition().getY()+Block.HEIGHT);
+			}
 			else
 				position = newPos;
 		}
 		if(input.isKeyDown(83)){ //s
 			Vector newPos = position.add(new Vector(0,speed*delta));
-			Block b=null;
-			if(level.getMap().isCollision(newPos.add(new Vector(0,Block.HEIGHT))))
-				b = level.getMap().get(newPos.add(new Vector(0,Block.HEIGHT)));
-			
-			if(position.getX()%WIDTH != 0 && b == null && level.getMap().isCollision(newPos.add(new Vector(WIDTH,Block.HEIGHT))))
-				b = level.getMap().get(newPos.add(new Vector(WIDTH,Block.HEIGHT)));
-			
-			if(b != null)
-				position.setY(b.getPosition().getY()-HEIGHT);
+			if(level.getMap().isCollision(newPos.add(new Vector(0,HEIGHT))) ||
+			  ((position.getX()+WIDTH)%Block.WIDTH != 0 && level.getMap().isCollision(newPos.add(new Vector(WIDTH,HEIGHT))))){
+				position.setY(level.getMap().get(newPos.add(new Vector(0,HEIGHT))).getPosition().getY()-HEIGHT);
+			}
 			else
 				position = newPos;
 		}
 		if(input.isKeyDown(65)){ //a
-			
 			Vector newPos = position.add(new Vector(-speed*delta,0));
-			Block b=null;
-			if(level.getMap().isCollision(newPos))
-				b = level.getMap().get(newPos);
-			
-			if(position.getY()%HEIGHT != 0  && b == null && level.getMap().isCollision(newPos.add(new Vector(0,HEIGHT))))
-				b = level.getMap().get(newPos.add(new Vector(0,HEIGHT)));
-			
-			if(b != null)
-				position.setX(b.getPosition().getX()+Block.WIDTH);
+			if(level.getMap().isCollision(newPos) ||
+			  (position.getY()%Block.HEIGHT != 0 && (position.getY()+HEIGHT)%Block.HEIGHT != 0 && level.getMap().isCollision(newPos.add(new Vector(0,HEIGHT))))){
+				position.setX(level.getMap().get(newPos).getPosition().getX()+Block.WIDTH);
+			}
 			else
 				position = newPos;
 		}
 		if(input.isKeyDown(68)){ //d
-			
-			Vector newPos = position.add(new Vector(speed*delta,0));
-			Block b=null;
-			if(level.getMap().isCollision(newPos.add(new Vector(Block.WIDTH,0))))
-				b = level.getMap().get(newPos.add(new Vector(Block.WIDTH,0)));
-			
-			if(position.getY()%HEIGHT != 0  && b == null && level.getMap().isCollision(newPos.add(new Vector(Block.WIDTH,HEIGHT))))
-				b = level.getMap().get(newPos.add(new Vector(Block.WIDTH,HEIGHT)));
-			
-			if(b != null)
-				position.setX(b.getPosition().getX()-WIDTH);
+			Vector newPos = position.add(new Vector(speed*delta, 0));
+			if(level.getMap().isCollision(newPos.add(new Vector(WIDTH,0))) ||
+			  ((position.getY()+HEIGHT)%Block.HEIGHT != 0 && level.getMap().isCollision(newPos.add(new Vector(WIDTH,HEIGHT))))){
+				position.setX(level.getMap().get(newPos.add(new Vector(WIDTH,0))).getPosition().getX()-WIDTH);
+			}
 			else
 				position = newPos;
 		}
-		
-//		if(input.isKeyDown(87)){ //w
-//			Vector newPos = position.add(new Vector(0,-speed*delta));
-//			if(level.canGo(newPos))
-//				position = newPos;
-//		}
-//		if(input.isKeyDown(83)){ //s
-//			Vector newPos = position.add(new Vector(0,speed*delta));
-//			if(level.canGo(newPos))
-//				position = newPos;
-//		}
-//		if(input.isKeyDown(65)){ //a
-//			Vector newPos = position.add(new Vector(-speed*delta,0));
-//			if(level.canGo(newPos))
-//				position = newPos;
-//		}
-//		if(input.isKeyDown(68)){ //d
-//			Vector newPos = position.add(new Vector(speed*delta,0));
-//			if(level.canGo(newPos))
-//				position = newPos;
-//		}
-		
 		
 		if(input.isMouseDown(1)){
 			Vector realMousePos = input.getMousePos().add(level.getOffset());

@@ -148,5 +148,9 @@ public class Vector {
 	
 	public boolean equals(Vector v){
 		return x == v.getX() && y == v.getY();
+	}
+
+	public String toDecimal(int i) {
+		return "["+String.format("%0"+i+"d ",(int)x)+"x"+String.format("%0"+i+"d ",(int)y)+"]";
 	};
 }
