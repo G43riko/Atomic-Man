@@ -13,11 +13,10 @@ public class Block extends GameObject{
 	private Level level;
 	private int healt;
 	private int type;
-	private Vector position;
 	
 	public Block(Vector position, int type, Level level){
+		super(position);
 		this.level = level;
-		this.position = position;
 		this.type = type;
 		this.healt = 20;
 		color = GColor.randomize(40, Color.GREEN);
@@ -48,14 +47,13 @@ public class Block extends GameObject{
 		if(type==0)
 			return;
 		g2.setColor(color);
-		g2.fillRect(position.getXi()-level.getOffset().getXi(), position.getYi()-level.getOffset().getYi(), WIDTH, HEIGHT);
+		int x = getPosition().getXi()-level.getOffset().getXi();
+		int y = getPosition().getYi()-level.getOffset().getYi();
+		g2.fillRect(x, y, WIDTH, HEIGHT);
 	}
 
 	public int getType() {
 		return type;
 	}
 
-	public Vector getPosition() {
-		return position;
-	}
 }

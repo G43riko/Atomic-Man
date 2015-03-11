@@ -36,9 +36,11 @@ public class Map extends GameObject{
 				}
 				Vector p = mapa[i][j].getPosition();
 				Vector o = level.getOffset();
+				//podmienka na vykreslovanie len viditelnych blokov
 				if(p.getX() + Block.WIDTH < o.getX() || o.getX()+level.getCanvas().getWidth()<p.getX() ||
 				   p.getY() + Block.HEIGHT < o.getY() || o.getY()+level.getCanvas().getHeight()<p.getY())
 					continue;
+				
 				mapa[i][j].render(g2);
 				res2++;
 				if(mapa[i][j].getType()!=0)
@@ -55,14 +57,14 @@ public class Map extends GameObject{
 	
 	public boolean isCollision(Vector p){
 		Vector playerPos = p.div(new Vector(Block.WIDTH, Block.HEIGHT));
-//		if()
-//			return true;
+
 		if(exist(playerPos.getXi(),playerPos.getYi())&& mapa[playerPos.getXi()][playerPos.getYi()].getType()==0){
 			return false;
 		}
 		return true;
 	}
 	
+	//vráti blok na mape podla suradnic
 	public Block get(Vector p){
 		Vector playerPos = p.div(new Vector(Block.WIDTH, Block.HEIGHT));
 		if(!exist(playerPos.getXi(),playerPos.getYi()))

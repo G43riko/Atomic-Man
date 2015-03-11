@@ -25,10 +25,12 @@ public class Level extends GameObject{
 	private Canvas canvas;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Bullet> bullets;
+	private ArrayList<Bomb> bombs;
 
 	
 	public Level(Canvas canvas){
 		enemies = new ArrayList<Enemy>();
+		bombs = new ArrayList<Bomb>();
 		bullets = new ArrayList<Bullet>();
 		backgroundColor = GColor.RED;
 		backgroundImage = ResourceLoader.loadTexture("stadion.jpg");
@@ -48,6 +50,10 @@ public class Level extends GameObject{
 		for(Enemy e: enemies){
 			e.render(g2);
 		}
+		
+		for(Bomb b: bombs){
+			b.render(g2);
+		}
 		for(Bullet b: bullets){
 			b.render(g2);
 		}
@@ -64,25 +70,31 @@ public class Level extends GameObject{
 			e.update(delta);
 		}
 		
-		
-		ArrayList<Bullet> forRemove = new ArrayList<Bullet>();
-		for(Bullet b: bullets){
+		for(int i=0 ; i<bombs.size() ; i++){
+			Bomb b = bombs.get(i);
 			b.update(delta);
-			if(b.isDead()){
-				forRemove.add(b);
-			}
+			if(b.isDead())
+				bombs.remove(b);
 		}
-		bullets.removeAll(forRemove);
 		
-		
-//		for(int i=0 ; i<bullets.size() ; i++){
-//			Bullet b = bullets.get(i);
+//		ArrayList<Bullet> forRemove = new ArrayList<Bullet>();
+//		for(Bullet b: bullets){
 //			b.update(delta);
 //			if(b.isDead()){
-//				bullets.remove(b);
-//				i--;
+//				forRemove.add(b);
 //			}
 //		}
+//		bullets.removeAll(forRemove);
+		
+		
+		for(int i=0 ; i<bullets.size() ; i++){
+			Bullet b = bullets.get(i);
+			b.update(delta);
+			if(b.isDead()){
+				bullets.remove(b);
+				i--;
+			}
+		}
 	}
 	
 	public boolean canGo(Vector p){
@@ -135,5 +147,12 @@ public class Level extends GameObject{
 	
 	public int getNumOfBullets(){
 		return bullets.size();
+	}
+
+	public void addBomb(Player player) {
+		Vector blockSize = new Vector(Block.WIDTH, Block.HEIGHT);
+		Vector pos = player.getPosition().add(new Vector(Player.WIDTH/2, Player.HEIGHT/2));
+		bombs.add(new Bomb(new Vector(pos.getXi(), pos.getYi()), 5, this));
+		System.out.println("položil som bombu");
 	}
 }
