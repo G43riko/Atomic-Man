@@ -39,6 +39,8 @@ public class Log extends GameObject{
 		
 	}
 
+	//SETTERS
+	
 	public void setLevel(Level level) {
 		this.level = level;
 	}

@@ -7,6 +7,7 @@ import Atomic.util.Vector;
 
 public abstract class GameObject {
 	private Vector position;
+	
 	public GameObject(){
 		this.position = new Vector();
 	}
@@ -27,10 +28,14 @@ public abstract class GameObject {
 		
 	}
 	
+	//GETTERS
+	
 	public Vector getPosition() {
 		return position;
 	}
 
+	//SETTERS
+	
 	public void setPosition(Vector position) {
 		this.position = position;
 	}

@@ -88,6 +88,7 @@ public class Enemy  extends GameObject{
 	
 	public void render(Graphics2D g2){
 		g2.setColor(color);
-		g2.fillRect(getPosition().getXi()-level.getOffset().getXi(), getPosition().getYi()-level.getOffset().getYi(), Player.WIDTH, Player.HEIGHT);
+		Vector pos = getPosition().sub(level.getOffset());
+		g2.fillRect(pos.getXi(), pos.getYi(), Player.WIDTH, Player.HEIGHT);
 	}
 }

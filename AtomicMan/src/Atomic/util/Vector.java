@@ -146,8 +146,8 @@ public class Vector {
 		return new Vector(this);
 	}
 	
-	public boolean equals(Vector v){
-		return x == v.getX() && y == v.getY();
+	public boolean equals(Object o){
+		return x == ((Vector)o).getX() && y == ((Vector)o).getY();
 	}
 
 	public String toDecimal(int i) {

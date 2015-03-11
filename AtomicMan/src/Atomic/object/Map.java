@@ -56,22 +56,57 @@ public class Map extends GameObject{
 	}
 	
 	public boolean isCollision(Vector p){
-		Vector playerPos = p.div(new Vector(Block.WIDTH, Block.HEIGHT));
-
-		if(exist(playerPos.getXi(),playerPos.getYi())&& mapa[playerPos.getXi()][playerPos.getYi()].getType()==0){
+		Vector pos = p.div(new Vector(Block.WIDTH, Block.HEIGHT));
+		if(exist(pos.getXi(),pos.getYi()) && mapa[pos.getXi()][pos.getYi()].getType()==0){
 			return false;
 		}
 		return true;
 	}
+
+	public int[] calcBombDist(Vector from, Player player){ 
+		Vector sur = getSur(from);
+		int v0, v1, v2, v3;
+		v0 = v1 = v2 = v3 = -1;
+		if(!player.isAtomBomb()){
+			for(int i=1 ; i<=player.getRange() ; i++){
+				if(v0 < 0 && exist(sur.getXi(), sur.getYi()-i) &&  mapa[sur.getXi()][sur.getYi()-i].getType()>0)
+					v0 = i - 1 + Bomb.OVERDRAW_BLOCK;
+				
+				if(v1 < 0 && exist(sur.getXi()+i, sur.getYi()) && mapa[sur.getXi()+i][sur.getYi()].getType()>0)
+					v1 = i - 1 + Bomb.OVERDRAW_BLOCK;
+				
+				if(v2 < 0 && exist(sur.getXi(), sur.getYi()+i) && mapa[sur.getXi()][sur.getYi()+i].getType()>0)
+					v2 = i - 1 + Bomb.OVERDRAW_BLOCK;
+				
+				if(v3 < 0 && exist(sur.getXi()-i, sur.getYi()) && mapa[sur.getXi()-i][sur.getYi()].getType()>0)
+					v3 = i - 1 + Bomb.OVERDRAW_BLOCK;
+			}
+		}
+		if(v0 < 0)
+			v0 = player.getRange();
+		if(v1 < 0)
+			v1 = player.getRange();
+		if(v2 < 0)
+			v2 = player.getRange();
+		if(v3 < 0)
+			v3 = player.getRange();
+		return new int[]{v0, v1, v2, v3};
+		
+	}
+
+	//GETTERS
 	
-	//vráti blok na mape podla suradnic
-	public Block get(Vector p){
+	public Vector getSur(Vector v){
+		return get(v).getPosition().div(new Vector(Block.WIDTH, Block.HEIGHT));
+	}
+	
+	public Block get(Vector p){	//vráti blok na mape podla suradnic
 		Vector playerPos = p.div(new Vector(Block.WIDTH, Block.HEIGHT));
 		if(!exist(playerPos.getXi(),playerPos.getYi()))
 			return new Block(new Vector(),0,level);
 		return mapa[playerPos.getXi()][playerPos.getYi()];
 	}
-
+	
 	public int getDestructible() {
 		return destructible;
 	}

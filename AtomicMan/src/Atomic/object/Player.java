@@ -10,17 +10,36 @@ import Atomic.util.Vector;
 public class Player extends GameObject{
 	public final static int WIDTH = 30;
 	public final static int HEIGHT = 30;
-	//private Vector size;
 	private Color color;
-	private float speed; 
+	private float speed;
 	private Level level;
+	private int range;
+	private int bombs;
+	private boolean nanoBomb;
+	public int getRange() {
+		return range;
+	}
+
+	private boolean atomBomb;
+	private boolean fireBomb;
+	private boolean skejtboard;
+	private boolean kicking;
+	private boolean shield;
+	private boolean ghost;
+	
+	//CONSTRUCTORS
 	
 	public Player(Level level){
 		super(new Vector (80,80));
 		this.level = level;
-		//size = new Vector (40,40);
 		color = GColor.BLACK;
+		init();
+	}
+	
+	private void init(){
 		speed = 5;
+		range = 3;
+		bombs = 1;
 	}
 	
 	public void input(float delta,Input input){
@@ -68,7 +87,8 @@ public class Player extends GameObject{
 		
 		if(input.isMouseDown(1)){
 			Vector realMousePos = input.getMousePos().add(level.getOffset());
-			level.addBullet(new Bullet(level, realMousePos.sub(getPosition()).Normalized()));
+			Vector pos = getPosition().add(new Vector(WIDTH/2, HEIGHT/2));
+			level.addBullet(new Bullet(level, realMousePos.sub(pos).Normalized(),20));
 		}
 	}
 	
@@ -106,7 +126,17 @@ public class Player extends GameObject{
 	}
 	
 	public void render(Graphics2D g2){
+		Vector pos = getPosition().sub(level.getOffset());
+		
 		g2.setColor(color);
-		g2.fillRect(getPosition().getXi()-level.getOffset().getXi(), getPosition().getYi()-level.getOffset().getYi(), WIDTH, HEIGHT);
+		g2.fillRect(pos.getXi(), pos.getYi(), WIDTH, HEIGHT);
 	}
+	
+	//GETTERS
+	
+	public boolean isAtomBomb() {
+		return atomBomb;
+	}
+	
+	//SETTERS
 }

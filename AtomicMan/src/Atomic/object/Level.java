@@ -16,6 +16,7 @@ import Atomic.util.ResourceLoader;
 import Atomic.util.Vector;
 
 public class Level extends GameObject{
+	
 	private Vector size;
 	private Vector offset;
 	private Color backgroundColor;
@@ -46,17 +47,17 @@ public class Level extends GameObject{
 	
 	public void render(Graphics2D g2){
 		map.render(g2);
-		player.render(g2);
-		for(Enemy e: enemies){
-			e.render(g2);
-		}
 		
-		for(Bomb b: bombs){
+		for(Enemy e: enemies)
+			e.render(g2);
+		
+		for(Bomb b: bombs)
 			b.render(g2);
-		}
-		for(Bullet b: bullets){
+		
+		player.render(g2);
+		
+		for(Bullet b: bullets)
 			b.render(g2);
-		}
 	}
 	
 	public void input(float delta, Input input){
@@ -66,6 +67,7 @@ public class Level extends GameObject{
 	public void update(float delta){
 		map.update(delta);
 		player.update(delta);
+		
 		for(Enemy e: enemies){
 			e.update(delta);
 		}
@@ -77,16 +79,6 @@ public class Level extends GameObject{
 				bombs.remove(b);
 		}
 		
-//		ArrayList<Bullet> forRemove = new ArrayList<Bullet>();
-//		for(Bullet b: bullets){
-//			b.update(delta);
-//			if(b.isDead()){
-//				forRemove.add(b);
-//			}
-//		}
-//		bullets.removeAll(forRemove);
-		
-		
 		for(int i=0 ; i<bullets.size() ; i++){
 			Bullet b = bullets.get(i);
 			b.update(delta);
@@ -95,10 +87,6 @@ public class Level extends GameObject{
 				i--;
 			}
 		}
-	}
-	
-	public boolean canGo(Vector p){
-		return !map.isCollision(p);
 	}
 	
 	public void addBullet(Bullet b){
@@ -150,9 +138,10 @@ public class Level extends GameObject{
 	}
 
 	public void addBomb(Player player) {
-		Vector blockSize = new Vector(Block.WIDTH, Block.HEIGHT);
 		Vector pos = player.getPosition().add(new Vector(Player.WIDTH/2, Player.HEIGHT/2));
-		bombs.add(new Bomb(new Vector(pos.getXi(), pos.getYi()), 5, this));
-		System.out.println("položil som bombu");
+		pos = getMap().get(pos).getPosition();
+		Bomb b = new Bomb(pos, this, map.calcBombDist(pos, player));
+		if(!bombs.contains(b))
+			bombs.add(b);
 	}
 }

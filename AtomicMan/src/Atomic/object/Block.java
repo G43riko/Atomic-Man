@@ -46,10 +46,10 @@ public class Block extends GameObject{
 	public void render(Graphics2D g2){
 		if(type==0)
 			return;
+		Vector pos = getPosition().sub(level.getOffset());
+		
 		g2.setColor(color);
-		int x = getPosition().getXi()-level.getOffset().getXi();
-		int y = getPosition().getYi()-level.getOffset().getYi();
-		g2.fillRect(x, y, WIDTH, HEIGHT);
+		g2.fillRect(pos.getXi(), pos.getYi(), WIDTH, HEIGHT);
 	}
 
 	public int getType() {

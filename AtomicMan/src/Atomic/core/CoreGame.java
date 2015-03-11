@@ -23,6 +23,7 @@ public abstract class CoreGame {
 	private Level level;
 	public  Input input;
 	private Log log;
+	private boolean showLogs = false;
 	private ArrayList<GameObject> scene = new ArrayList<GameObject>();
 	
 	public abstract void init();
@@ -89,7 +90,8 @@ public abstract class CoreGame {
 		for(GameObject g :scene){
 			g.render(g2);
 		}
-		log.render(g2);
+		if(showLogs)
+			log.render(g2);
 	}
 	
 	private void mainLoop(){
