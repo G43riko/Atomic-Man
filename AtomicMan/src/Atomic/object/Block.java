@@ -3,6 +3,7 @@ package Atomic.object;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import Atomic.component.Explosion;
 import Atomic.util.GColor;
 import Atomic.util.Vector;
 
@@ -35,12 +36,11 @@ public class Block extends GameObject{
 	
 	public void hit(int val){
 		healt-=val;
-		if(healt <= 0)
-			type = 0;
-		
 		color = color.darker();
-		if(color.getRed()==0 && color.getGreen()==0 && color.getBlue()==0)
+		if(healt <= 0 || (color.getRed()==0 && color.getGreen()==0 && color.getBlue()==0)){
+			level.addExplosion(new Explosion(getPosition(),(int)(Math.random()*3),level,10));
 			type = 0;
+		}
 	}
 	
 	public void render(Graphics2D g2){

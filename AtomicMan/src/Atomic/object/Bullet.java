@@ -25,9 +25,10 @@ public class Bullet {
 	
 	public Bullet(Level level, Vector dir, int accuracy){
 		this.level = level;
-		position = level.getPlayer().getPosition().add(new Vector(Player.WIDTH/2, Player.HEIGHT/2));
-		color = GColor.randomize(100, Color.YELLOW);
 		this.dir = dir.add(new Vector((float)Math.random()/accuracy, (float)Math.random()/accuracy));
+		
+		position = level.getPlayer().getPosition().add(new Vector(Player.WIDTH/2, Player.HEIGHT/2));
+		color = GColor.randomize(100, Color.RED);
 		speed = 15+(int)(Math.random()*10-5);
 		size = 5;
 		demage = 1;

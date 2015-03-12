@@ -42,7 +42,7 @@ public class Level extends GameObject{
 		this.canvas = canvas;
 		player = new Player(this);
 		offset = new Vector(0 - canvas.getWidth() / 2, 0 - canvas.getHeight() / 2);
-		
+		new Explosion();
 		for(int i=0 ; i<20 ; i++){
 			enemies.add(new Enemy(this));
 		}
@@ -50,6 +50,9 @@ public class Level extends GameObject{
 	
 	public void render(Graphics2D g2){
 		map.render(g2);
+		
+		for(Bomb b: bombs)
+			b.renderRangeArea(g2);
 		
 		for(Enemy e: enemies)
 			e.render(g2);
