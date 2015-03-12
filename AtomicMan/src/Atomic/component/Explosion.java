@@ -12,12 +12,10 @@ import Atomic.util.Vector;
 
 public class Explosion extends GameObject{
 	private class Explos{
-		private String n;
 		private Image i;
 		private int x;
 		private int y;
 		public Explos(String n, int x, int y){
-			this.n = n;
 			this.i = ResourceLoader.loadTexture(n);
 			this.x = x;
 			this.y = y;
@@ -56,17 +54,8 @@ public class Explosion extends GameObject{
 		imageHeight = e.i.getHeight(null) / e.y;
 		actImage = 0;
 	}
-	
-	public void render(Graphics2D g2){
-		Vector pos = getPosition().sub(level.getOffset());
-		Vector a = pos.add(size);
-		int x0 = (actImage % e.x) * imageWidth;
-		int y0 = (actImage / e.y) * imageHeight;
-		int x1 = x0 + imageWidth;
-		int y1 = y0 + imageHeight;
-		g2.drawImage(e.i, pos.getXi(),pos.getYi(), a.getXi(), a.getYi(), x0, y0,  x1, y1, null);
-		actImage++;
-	}
+
+	//OTHERS
 	
 	private void createExplosions(){
 		explosions.add(new Explos("explosion1.png",5,5));
@@ -80,11 +69,26 @@ public class Explosion extends GameObject{
 		explosions.add(new Explos("explosion9.png",5,3));
 	}
 	
+	//OVERRIDES
+	
+	public void render(Graphics2D g2){
+		Vector pos = getPosition().sub(level.getOffset());
+		Vector a = pos.add(size);
+		int x0 = (actImage % e.x) * imageWidth;
+		int y0 = (actImage / e.y) * imageHeight;
+		int x1 = x0 + imageWidth;
+		int y1 = y0 + imageHeight;
+		g2.drawImage(e.i, pos.getXi(),pos.getYi(), a.getXi(), a.getYi(), x0, y0,  x1, y1, null);
+		actImage++;
+	}
+	
 	public void update(float delta){
 		if(actImage == numOfImages)
 			dead = true;
 	}
 
+	//GETTERS
+	
 	public boolean isDead() {
 		return dead;
 	}

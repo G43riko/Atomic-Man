@@ -7,9 +7,13 @@ public class Log extends GameObject{
 	private Level level;
 	private int fps;
 	
+	//CONSTRUCTORS
+	
 	public Log(Level level){
 		this.level = level;
 	}
+	
+	//OVERRIDES
 	
 	public void render(Graphics2D g2){
 		if(level==null)

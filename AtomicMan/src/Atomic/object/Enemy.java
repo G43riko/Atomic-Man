@@ -1,6 +1,5 @@
 package Atomic.object;
 
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import Atomic.util.GColor;
@@ -8,26 +7,22 @@ import Atomic.util.Vector;
 
 public class Enemy  extends GameObject{
 	private Vector dir;
-	private int direct;
 	private float speed;
 	private GColor color;
 	private Level level;
+	
+	//CONSTRUCTORS
 	
 	public Enemy(Level level){
 		super(new Vector((float)(Math.random()*(Map.NUM_X*Block.WIDTH-Block.WIDTH)),(float)(Math.random()*(Map.NUM_Y*Block.HEIGHT-Block.HEIGHT))));
 		this.level = level;
 		color = new GColor((int)(Math.random()*255), (int)(Math.random()*255), (int)(Math.random()*255));
 		double angle = Math.random()*Math.PI*2;
-		direct = (int)(Math.random()*4);
 		dir = new Vector((float)Math.sin(angle),(float)Math.cos(angle));
 		speed = 4;
 	}
 	
-//	public void update(float delta){
-//		if(direct==0){
-//			
-//		}
-//	}
+	//OVERRIDES
 	
 	public void update(float delta){
 //		pos = pos.add(dir.mul(speed*delta));

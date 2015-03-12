@@ -1,8 +1,6 @@
 package Atomic.core;
 
-import java.awt.AlphaComposite;
 import java.awt.Canvas;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
@@ -27,6 +25,8 @@ public abstract class CoreGame {
 	private ArrayList<GameObject> scene = new ArrayList<GameObject>();
 	
 	public abstract void init();
+	
+	//CREATORS
 	
 	protected void createWindow(int width, int height, String title){
 		window = new Window(width, height, title);
@@ -96,13 +96,13 @@ public abstract class CoreGame {
 	
 	private void mainLoop(){
 		int frames = 0;
-		int ticks = 0;
+//		int ticks = 0;
 		double lastTime;
 		double startTime = System.currentTimeMillis();
 		while(isRunning){
 			lastTime = System.currentTimeMillis();
 			while(System.currentTimeMillis()-lastTime <= frameTime){
-				ticks++;
+//				ticks++;
 				try {
 					Thread.sleep(1);
 				} catch (InterruptedException e) {e.printStackTrace(); }
@@ -115,7 +115,7 @@ public abstract class CoreGame {
 			if(System.currentTimeMillis()-startTime >= 1000){
 				//System.out.println("frames: "+frames+" ticks: "+ticks/*+" startTime: "+(System.currentTimeMillis()-startTime)*/);
 				log.setFps(frames);
-				ticks = 0;
+//				ticks = 0;
 				frames = 0;
 				startTime = System.currentTimeMillis();
 			}

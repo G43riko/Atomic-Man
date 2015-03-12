@@ -4,11 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 
 import Atomic.component.Explosion;
 import Atomic.core.Input;
@@ -17,8 +13,6 @@ import Atomic.util.ResourceLoader;
 import Atomic.util.Vector;
 
 public class Level extends GameObject{
-	
-	private Vector size;
 	private Vector offset;
 	private Color backgroundColor;
 	private Image backgroundImage;
@@ -30,6 +24,7 @@ public class Level extends GameObject{
 	private ArrayList<Explosion> explosions;
 	private ArrayList<Bomb> bombs;
 
+	//CONSTRUCTORS
 	
 	public Level(Canvas canvas){
 		enemies = new ArrayList<Enemy>();
@@ -47,6 +42,27 @@ public class Level extends GameObject{
 			enemies.add(new Enemy(this));
 		}
 	}
+
+	//ADDERS
+	
+	public void addBullet(Bullet b){
+		bullets.add(b);
+	}
+
+	public void addBomb(Player player) {
+		Vector pos = player.getPosition().add(new Vector(Player.WIDTH/2, Player.HEIGHT/2));
+		pos = getMap().get(pos).getPosition();
+		Bomb b = new Bomb(pos, this, map.calcBombDist(pos, player), player.getDemage(),player.isNano());
+		if(!bombs.contains(b))
+			bombs.add(b);
+	}
+
+	public void addExplosion(Explosion explosion) {
+		explosions.add(explosion);
+		
+	}
+
+	//OVERRIDES
 	
 	public void render(Graphics2D g2){
 		map.render(g2);
@@ -107,46 +123,8 @@ public class Level extends GameObject{
 		}
 	}
 	
-	public void addBullet(Bullet b){
-		bullets.add(b);
-	}
+	//GETTERS
 	
-	public Color getBackgroundColor() {
-		return backgroundColor;
-	}
-
-	public void setBackgroundColor(Color backgroundColor) {
-		this.backgroundColor = backgroundColor;
-	}
-
-	public Map getMap() {
-		return map;
-	}
-
-	public void setMap(Map map) {
-		this.map = map;
-	}
-
-	public Vector getOffset() {
-		return offset;
-	}
-
-	public void setOffset(Vector offset) {
-		this.offset = offset;
-	}
-
-	public Canvas getCanvas() {
-		return canvas;
-	}
-
-	public Image getBackgroundImage() {
-		return backgroundImage;
-	}
-
-	public Player getPlayer() {
-		return player;
-	}
-
 	public int getNumOfEnemies(){
 		return enemies.size();
 	}
@@ -154,17 +132,48 @@ public class Level extends GameObject{
 	public int getNumOfBullets(){
 		return bullets.size();
 	}
-
-	public void addBomb(Player player) {
-		Vector pos = player.getPosition().add(new Vector(Player.WIDTH/2, Player.HEIGHT/2));
-		pos = getMap().get(pos).getPosition();
-		Bomb b = new Bomb(pos, this, map.calcBombDist(pos, player));
-		if(!bombs.contains(b))
-			bombs.add(b);
+	
+	public int getNumOfBombs(){
+		return bombs.size();
+	}
+	
+	public Color getBackgroundColor() {
+		return backgroundColor;
 	}
 
-	public void addExplosion(Explosion explosion) {
-		explosions.add(explosion);
-		
+	public Map getMap() {
+		return map;
+	}
+
+	public Vector getOffset() {
+		return offset;
+	}
+
+	public Canvas getCanvas() {
+		return canvas;
+	}
+	
+	
+	public Image getBackgroundImage() {
+		return backgroundImage;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+	
+	
+	//SETTERS
+
+	public void setOffset(Vector offset) {
+		this.offset = offset;
+	}
+
+	public void setMap(Map map) {
+		this.map = map;
+	}
+
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
 	}
 }

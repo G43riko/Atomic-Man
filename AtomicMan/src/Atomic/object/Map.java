@@ -12,10 +12,14 @@ public class Map extends GameObject{
 	private int destructible;
 	private int drawable;
 	
+	//CONSTRUCTORS
+	
 	public Map(Level level){
 		this.level = level;
 		createMap();
 	}
+	
+	//CREATORS
 	
 	public void createMap(){
 		mapa = new Block[NUM_X][NUM_Y];
@@ -25,6 +29,8 @@ public class Map extends GameObject{
 			}
 		}
 	}
+	
+	//OVERRIDES
 	
 	public void render(Graphics2D g2){
 		int res = 0;
@@ -51,9 +57,7 @@ public class Map extends GameObject{
 		destructible = res;
 	}
 	
-	private boolean exist(int i, int j){
-		return i>=0 && j>=0 && i<NUM_X && j<NUM_Y;
-	}
+	//OTHERS
 	
 	public boolean isCollision(Vector p){
 		Vector pos = p.div(new Vector(Block.WIDTH, Block.HEIGHT));
@@ -63,11 +67,15 @@ public class Map extends GameObject{
 		return true;
 	}
 
+	private boolean exist(int i, int j){
+		return i>=0 && j>=0 && i<NUM_X && j<NUM_Y;
+	}
+	
 	public int[] calcBombDist(Vector from, Player player){ 
 		Vector sur = getSur(from);
 		int v0, v1, v2, v3;
 		v0 = v1 = v2 = v3 = -1;
-		if(!player.isAtomBomb()){
+		if(!player.isNano()){
 			for(int i=1 ; i<=player.getRange() ; i++){
 				if(v0 < 0 && exist(sur.getXi(), sur.getYi()-i) &&  mapa[sur.getXi()][sur.getYi()-i].getType()>0)
 					v0 = i - 1 + Bomb.OVERDRAW_BLOCK;

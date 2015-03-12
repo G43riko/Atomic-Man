@@ -15,11 +15,13 @@ public class Block extends GameObject{
 	private int healt;
 	private int type;
 	
+	//CONSTRUCTORS
+	
 	public Block(Vector position, int type, Level level){
 		super(position);
 		this.level = level;
 		this.type = type;
-		this.healt = 20;
+		this.healt = 100;
 		color = GColor.randomize(40, Color.GREEN);
 		
 		if(type==0)
@@ -34,14 +36,18 @@ public class Block extends GameObject{
 			color = GColor.randomize(50, Color.DARK_GRAY);
 	}
 	
+	//OTHERS
+	
 	public void hit(int val){
 		healt-=val;
 		color = color.darker();
 		if(healt <= 0 || (color.getRed()==0 && color.getGreen()==0 && color.getBlue()==0)){
-			level.addExplosion(new Explosion(getPosition(),(int)(Math.random()*3),level,10));
+			level.addExplosion(new Explosion(getPosition(),(int)(Math.random()*3),level,20-(int)(Math.random()*6)-3));
 			type = 0;
 		}
 	}
+	
+	//OVERRIDES
 	
 	public void render(Graphics2D g2){
 		if(type==0)
@@ -52,6 +58,8 @@ public class Block extends GameObject{
 		g2.fillRect(pos.getXi(), pos.getYi(), WIDTH, HEIGHT);
 	}
 
+	//GETTERS
+	
 	public int getType() {
 		return type;
 	}

@@ -15,17 +15,16 @@ public class Player extends GameObject{
 	private Level level;
 	private int range;
 	private int bombs;
-	private boolean nanoBomb;
-	public int getRange() {
-		return range;
-	}
+	private int accularity;
+	private int demage;
 
-	private boolean atomBomb;
-	private boolean fireBomb;
-	private boolean skejtboard;
-	private boolean kicking;
-	private boolean shield;
-	private boolean ghost;
+//	private boolean atomBomb;
+//	private boolean fireBomb;
+	private boolean nano;
+//	private boolean skejtboard;
+//	private boolean kicking;
+//	private boolean shield;
+//	private boolean ghost;
 	
 	//CONSTRUCTORS
 	
@@ -40,7 +39,12 @@ public class Player extends GameObject{
 		speed = 5;
 		range = 3;
 		bombs = 1;
+		demage = 100;
+		accularity = 20;
+		nano = true;
 	}
+	
+	//OVERRIDES
 	
 	public void input(float delta,Input input){
 		if(input.isKeyDown(87)){ //w
@@ -81,6 +85,7 @@ public class Player extends GameObject{
 		}
 		
 		if(input.isKeyDown(17)){ //d
+			if(level.getNumOfBombs() < bombs)
 			level.addBomb(this);
 		}
 		
@@ -88,7 +93,7 @@ public class Player extends GameObject{
 		if(input.isMouseDown(1)){
 			Vector realMousePos = input.getMousePos().add(level.getOffset());
 			Vector pos = getPosition().add(new Vector(WIDTH/2, HEIGHT/2));
-			level.addBullet(new Bullet(level, realMousePos.sub(pos).Normalized(),20));
+			level.addBullet(new Bullet(level, realMousePos.sub(pos).Normalized(),accularity,demage/20));
 		}
 	}
 	
@@ -133,10 +138,17 @@ public class Player extends GameObject{
 	}
 	
 	//GETTERS
-	
-	public boolean isAtomBomb() {
-		return atomBomb;
+
+	public int getRange() {
+		return range;
+	}
+
+	public int getDemage() {
+		return demage;
+	}
+
+	public boolean isNano() {
+		return nano;
 	}
 	
-	//SETTERS
 }
