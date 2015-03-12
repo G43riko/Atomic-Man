@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import Atomic.component.Explosion;
 import Atomic.core.Input;
 import Atomic.util.GColor;
 import Atomic.util.ResourceLoader;
@@ -26,6 +27,7 @@ public class Level extends GameObject{
 	private Canvas canvas;
 	private ArrayList<Enemy> enemies;
 	private ArrayList<Bullet> bullets;
+	private ArrayList<Explosion> explosions;
 	private ArrayList<Bomb> bombs;
 
 	
@@ -33,6 +35,7 @@ public class Level extends GameObject{
 		enemies = new ArrayList<Enemy>();
 		bombs = new ArrayList<Bomb>();
 		bullets = new ArrayList<Bullet>();
+		explosions = new ArrayList<Explosion>();
 		backgroundColor = GColor.RED;
 		backgroundImage = ResourceLoader.loadTexture("stadion.jpg");
 		map = new Map(this);
@@ -58,6 +61,9 @@ public class Level extends GameObject{
 		
 		for(Bullet b: bullets)
 			b.render(g2);
+		
+		for(Explosion e: explosions)
+			e.render(g2);
 	}
 	
 	public void input(float delta, Input input){
@@ -76,14 +82,23 @@ public class Level extends GameObject{
 			Bomb b = bombs.get(i);
 			b.update(delta);
 			if(b.isDead())
-				bombs.remove(b);
+				bombs.remove(i);
 		}
 		
 		for(int i=0 ; i<bullets.size() ; i++){
-			Bullet b = bullets.get(i);
+			Bullet e = bullets.get(i);
+			e.update(delta);
+			if(e.isDead()){
+				bullets.remove(i);
+				i--;
+			}
+		}
+		
+		for(int i=0 ; i<explosions.size() ; i++){
+			Explosion b = explosions.get(i);
 			b.update(delta);
 			if(b.isDead()){
-				bullets.remove(b);
+				explosions.remove(b);
 				i--;
 			}
 		}
@@ -143,5 +158,10 @@ public class Level extends GameObject{
 		Bomb b = new Bomb(pos, this, map.calcBombDist(pos, player));
 		if(!bombs.contains(b))
 			bombs.add(b);
+	}
+
+	public void addExplosion(Explosion explosion) {
+		explosions.add(explosion);
+		
 	}
 }

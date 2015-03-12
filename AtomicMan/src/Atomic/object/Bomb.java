@@ -3,6 +3,7 @@ package Atomic.object;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import Atomic.component.Explosion;
 import Atomic.util.GColor;
 import Atomic.util.Vector;
 
@@ -45,13 +46,19 @@ public class Bomb extends GameObject{
 		if(exploded>0){
 			exploded--;
 		}
+		
 		if(exploded == 0)
 			dead = true;
+		
+			
 	}
 	
 	public void update(float delta){
-		if(System.currentTimeMillis() - startTime >maxLife && exploded<0)
+		if(System.currentTimeMillis() - startTime > maxLife && exploded<0){
 			exploded = 40;
+			level.addExplosion(new Explosion("explosion.png", getPosition(), 5, 5, level,10));
+		}
+			
 	}
 	
 	//GETTERS
