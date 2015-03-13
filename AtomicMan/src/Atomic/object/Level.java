@@ -45,6 +45,10 @@ public class Level extends GameObject{
 
 	//ADDERS
 	
+	public ArrayList<Enemy> getEnemies() {
+		return enemies;
+	}
+
 	public void addBullet(Bullet b){
 		bullets.add(b);
 	}
@@ -52,7 +56,7 @@ public class Level extends GameObject{
 	public void addBomb(Player player) {
 		Vector pos = player.getPosition().add(new Vector(Player.WIDTH/2, Player.HEIGHT/2));
 		pos = getMap().get(pos).getPosition();
-		Bomb b = new Bomb(pos, this, map.calcBombDist(pos, player), player.getDemage(),player.isNano());
+		Bomb b = new Bomb(pos, this, map.calcBombDist(pos, player), player.getDamage(),player.isNano());
 		if(!bombs.contains(b))
 			bombs.add(b);
 	}
@@ -95,6 +99,13 @@ public class Level extends GameObject{
 		
 		for(Enemy e: enemies){
 			e.update(delta);
+		}
+		
+		for(int i=0 ; i<enemies.size() ; i++){
+			Enemy e = enemies.get(i);
+			e.update(delta);
+			if(e.isDead())
+				enemies.remove(i);
 		}
 		
 		for(int i=0 ; i<bombs.size() ; i++){

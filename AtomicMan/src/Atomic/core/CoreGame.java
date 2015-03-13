@@ -21,7 +21,7 @@ public abstract class CoreGame {
 	private Level level;
 	public  Input input;
 	private Log log;
-	private boolean showLogs = false;
+	private boolean showLogs = true;
 	private ArrayList<GameObject> scene = new ArrayList<GameObject>();
 	
 	public abstract void init();

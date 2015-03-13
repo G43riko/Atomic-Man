@@ -17,7 +17,7 @@ public class Bomb extends GameObject{
 	private int exploded = -1;
 	private boolean dead;
 	private int[] dist;
-	private int demage;
+	private int damage;
 	private boolean nano;
 	private GColor range = new GColor(255,255,0,155); 
 	
@@ -28,7 +28,7 @@ public class Bomb extends GameObject{
 		this.nano = nano;
 		this.dist = dist;
 		this.level = level;
-		this.demage = demage;
+		this.damage = demage;
 		maxLife = 1000;
 		startTime = System.currentTimeMillis();
 	}
@@ -36,6 +36,7 @@ public class Bomb extends GameObject{
 	//OTHERS
 
 	public void renderRangeArea(Graphics2D g2){
+		//vykreslí to dlžku dostrelu bomby
 		if(exploded > 0)
 			return;
 		int x = getPosition().getXi()-level.getOffset().getXi()+OFFSET;
@@ -51,37 +52,37 @@ public class Bomb extends GameObject{
 			for(int i=0 ; i<=dist[0] ; i++){
 				a = level.getMap().get(new Vector(getPosition().add(new Vector(0,i*-Block.HEIGHT))));
 				if(a != null && a.getType()>0)
-					a.hit(demage);
+					a.hit(damage);
 				
 				a = level.getMap().get(new Vector(getPosition().add(new Vector(0,i*Block.HEIGHT))));
 				if(a != null && a.getType()>0)
-					a.hit(demage);
+					a.hit(damage);
 				
 				a = level.getMap().get(new Vector(getPosition().add(new Vector(i*Block.WIDTH,0))));
 				if(a != null && a.getType()>0)
-					a.hit(demage);
+					a.hit(damage);
 				
 				a = level.getMap().get(new Vector(getPosition().add(new Vector(i*-Block.WIDTH,0))));
 				if(a != null && a.getType()>0)
-					a.hit(demage);
+					a.hit(damage);
 			}
 		}
 		else{
 			Block a = level.getMap().get(new Vector(getPosition().add(new Vector(0,dist[0]*-Block.HEIGHT))));
 			if(a != null && a.getType()>0)
-				a.hit(demage);
+				a.hit(damage);
 			
 			a = level.getMap().get(new Vector(getPosition().add(new Vector(0,dist[2]*Block.HEIGHT))));
 			if(a != null && a.getType()>0)
-				a.hit(demage);
+				a.hit(damage);
 			
 			a = level.getMap().get(new Vector(getPosition().add(new Vector(dist[1]*Block.WIDTH,0))));
 			if(a != null && a.getType()>0)
-				a.hit(demage);
+				a.hit(damage);
 			
 			a = level.getMap().get(new Vector(getPosition().add(new Vector(dist[3]*-Block.WIDTH,0))));
 			if(a != null && a.getType()>0)
-				a.hit(demage);
+				a.hit(damage);
 		}
 	}
 	
@@ -111,7 +112,7 @@ public class Bomb extends GameObject{
 	public void update(float delta){
 		if(System.currentTimeMillis() - startTime > maxLife && exploded<0){
 			exploded = 40;
-			level.addExplosion(new Explosion(getPosition(), 7, level,10));
+			level.addExplosion(new Explosion(getPosition(), 8, level,10));
 			killBlocksAndEnemies();
 			dead = true;
 		}

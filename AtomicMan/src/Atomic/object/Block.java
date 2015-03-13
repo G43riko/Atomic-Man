@@ -12,7 +12,7 @@ public class Block extends GameObject{
 	public final static int HEIGHT = 40;
 	private Color color;
 	private Level level;
-	private int healt;
+	private int health;
 	private int type;
 	
 	//CONSTRUCTORS
@@ -21,7 +21,7 @@ public class Block extends GameObject{
 		super(position);
 		this.level = level;
 		this.type = type;
-		this.healt = 100;
+		this.health = 100;
 		color = GColor.randomize(40, Color.GREEN);
 		
 		if(type==0)
@@ -39,10 +39,11 @@ public class Block extends GameObject{
 	//OTHERS
 	
 	public void hit(int val){
-		healt-=val;
+		health-=val;
 		color = color.darker();
-		if(healt <= 0 || (color.getRed()==0 && color.getGreen()==0 && color.getBlue()==0)){
-			level.addExplosion(new Explosion(getPosition(),(int)(Math.random()*3),level,20-(int)(Math.random()*6)-3));
+		if(health <= 0 || (color.getRed()==0 && color.getGreen()==0 && color.getBlue()==0)){
+			Explosion e = new Explosion(getPosition(),(int)(Math.random()*3),level,20-(int)(Math.random()*6)-3);
+			level.addExplosion(e);
 			type = 0;
 		}
 	}
@@ -52,10 +53,10 @@ public class Block extends GameObject{
 	public void render(Graphics2D g2){
 		if(type==0)
 			return;
-		Vector pos = getPosition().sub(level.getOffset());
 		
+		Vector pos = getPosition().sub(level.getOffset());
 		g2.setColor(color);
-		g2.fillRect(pos.getXi(), pos.getYi(), WIDTH, HEIGHT);
+		g2.fill3DRect(pos.getXi(), pos.getYi(), WIDTH, HEIGHT, true);
 	}
 
 	//GETTERS

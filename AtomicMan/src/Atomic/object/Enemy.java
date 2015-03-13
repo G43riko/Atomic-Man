@@ -10,6 +10,8 @@ public class Enemy  extends GameObject{
 	private float speed;
 	private GColor color;
 	private Level level;
+	private int health;
+	private boolean dead;
 	
 	//CONSTRUCTORS
 	
@@ -20,6 +22,7 @@ public class Enemy  extends GameObject{
 		double angle = Math.random()*Math.PI*2;
 		dir = new Vector((float)Math.sin(angle),(float)Math.cos(angle));
 		speed = 4;
+		health = 5;
 	}
 	
 	//OVERRIDES
@@ -81,9 +84,20 @@ public class Enemy  extends GameObject{
 		}
 	}
 	
+	public void hit(int damage){
+		health -= damage;
+		
+		if(health <= 0)
+			dead = true;
+	}
+	
+	public boolean isDead() {
+		return dead;
+	}
+
 	public void render(Graphics2D g2){
 		g2.setColor(color);
 		Vector pos = getPosition().sub(level.getOffset());
-		g2.fillRect(pos.getXi(), pos.getYi(), Player.WIDTH, Player.HEIGHT);
+		g2.fill3DRect(pos.getXi(), pos.getYi(), Player.WIDTH, Player.HEIGHT, true);
 	}
 }

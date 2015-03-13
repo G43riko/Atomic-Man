@@ -3,6 +3,7 @@ package Atomic.object;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import Atomic.util.GColor;
 import Atomic.util.Vector;
@@ -10,15 +11,16 @@ import Atomic.util.Vector;
 public class Bullet extends GameObject{
 	public final static int WIDTH = 4;
 	public final static int HEIGHT = 4;
+	public final static int STROKE = 4;
 	
 	private Vector dir;
-	private int speed;
 	private GColor color;
 	private Level level;
-	private float stroke;
-	private int size;
-	private int demage;
 	private boolean dead;
+	private int speed;
+	private int size;
+	private int damage;
+	private float stroke;
 	
 	//CONSTRUCTORS
 	
@@ -26,7 +28,7 @@ public class Bullet extends GameObject{
 		super(level.getPlayer().getPosition().add(new Vector(Player.WIDTH/2, Player.HEIGHT/2)));
 		this.level = level;
 		this.dir = dir.add(new Vector((float)Math.random()/accuracy, (float)Math.random()/accuracy));
-		this.demage = demage;
+		this.damage = demage;
 		init();
 	}
 	
@@ -36,8 +38,8 @@ public class Bullet extends GameObject{
 		dead = false;
 		speed = 15+(int)(Math.random()*10-5);
 		size = 5;
-		stroke = 3 + (float)Math.random()*4-2;
-		color = GColor.randomize(100, Color.RED);
+		stroke = STROKE-1 + (float)Math.random()*STROKE-STROKE/2;
+		color = GColor.randomize(100, Color.YELLOW);
 	}
 	
 	//OVERRIDES
@@ -51,10 +53,20 @@ public class Bullet extends GameObject{
 		}
 		Block b = level.getMap().get(getPosition().add(new Vector(WIDTH/2,HEIGHT/2)));
 		if(b.getType()!=0){
-			b.hit(demage);
+			b.hit(damage);
 			dead = true;
 		}
+		ArrayList<Enemy> enemies = level.getEnemies();
+		for(Enemy e : enemies){
+			if(pointRect(e.getPosition(), new Vector(Player.WIDTH, Player.HEIGHT), getPosition())){
+				e.hit(damage);
+			}
+		}
 	}
+	
+	public static boolean pointRect(Vector aPos, Vector aSize, Vector bPos){
+		return bPos.getX() > aPos.getX() && bPos.getX() < aPos.getX() + aSize.getX() && bPos.getX() > aPos.getX() && bPos.getX() < aPos.getX() + aSize.getY();
+	};
 	
 	public void render(Graphics2D g2){
 		g2.setColor(color);
