@@ -96,7 +96,13 @@ public class Player extends GameObject{
 		if(input.isMouseDown(1)){
 			Vector realMousePos = input.getMousePos().add(level.getOffset());
 			Vector pos = getPosition().add(new Vector(WIDTH/2, HEIGHT/2));
-			level.addBullet(new Bullet(level, realMousePos.sub(pos).Normalized(),accularity,damage/20));
+			level.addWeapon(new Bullet(level, realMousePos.sub(pos).Normalized(),accularity,damage/20));
+		}
+		
+		if(input.isMouseDown(3)){
+			Vector realMousePos = input.getMousePos().add(level.getOffset());
+			Vector pos = getPosition().add(new Vector(WIDTH/2, HEIGHT/2));
+			level.addWeapon(new Rocket(level, realMousePos.sub(pos).Normalized(),accularity,damage));
 		}
 	}
 	

@@ -20,7 +20,7 @@ public class Level extends GameObject{
 	private Player player;
 	private Canvas canvas;
 	private ArrayList<Enemy> enemies;
-	private ArrayList<Bullet> bullets;
+	private ArrayList<Weapon> weapons;
 	private ArrayList<Explosion> explosions;
 	private ArrayList<Bomb> bombs;
 
@@ -29,7 +29,7 @@ public class Level extends GameObject{
 	public Level(Canvas canvas){
 		enemies = new ArrayList<Enemy>();
 		bombs = new ArrayList<Bomb>();
-		bullets = new ArrayList<Bullet>();
+		weapons = new ArrayList<Weapon>();
 		explosions = new ArrayList<Explosion>();
 		backgroundColor = GColor.RED;
 		backgroundImage = ResourceLoader.loadTexture("stadion.jpg");
@@ -49,8 +49,8 @@ public class Level extends GameObject{
 		return enemies;
 	}
 
-	public void addBullet(Bullet b){
-		bullets.add(b);
+	public void addWeapon(Weapon b){
+		weapons.add(b);
 	}
 
 	public void addBomb(Player player) {
@@ -82,8 +82,8 @@ public class Level extends GameObject{
 		
 		player.render(g2);
 		
-		for(Bullet b: bullets)
-			b.render(g2);
+		for(Weapon w: weapons)
+			w.render(g2);
 		
 		for(Explosion e: explosions)
 			e.render(g2);
@@ -115,11 +115,11 @@ public class Level extends GameObject{
 				bombs.remove(i);
 		}
 		
-		for(int i=0 ; i<bullets.size() ; i++){
-			Bullet e = bullets.get(i);
-			e.update(delta);
-			if(e.isDead()){
-				bullets.remove(i);
+		for(int i=0 ; i<weapons.size() ; i++){
+			Weapon w = weapons.get(i);
+			w.update(delta);
+			if(w.isDead()){
+				weapons.remove(i);
 				i--;
 			}
 		}
@@ -140,8 +140,8 @@ public class Level extends GameObject{
 		return enemies.size();
 	}
 	
-	public int getNumOfBullets(){
-		return bullets.size();
+	public int getNumOfWeapons(){
+		return weapons.size();
 	}
 	
 	public int getNumOfBombs(){

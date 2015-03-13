@@ -32,6 +32,9 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener{
 	public final static int KEY_LSHIFT = 16;
 	public final static int KEY_SPACE = 32;
 	
+	public final static int BUTTON_LEFT = 1;
+	public final static int BUTTON_RIGHT = 3;
+	
 	public boolean isKeyDown(int key){
 		if(keys.containsKey(key)){
 			return keys.get(key);
@@ -96,6 +99,7 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
+		System.out.println(e.getButton());
 		mouses.put(e.getButton(), true);
 		
 	}
