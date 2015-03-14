@@ -50,7 +50,6 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener{
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println(e.getKeyCode());
 		keys.put(e.getKeyCode(), true);
 		
 	}
@@ -99,7 +98,6 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		System.out.println(e.getButton());
 		mouses.put(e.getButton(), true);
 		
 	}

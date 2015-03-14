@@ -1,7 +1,9 @@
-package Atomic.object;
+package Atomic.object.weapon;
 
 import java.awt.Color;
 
+import Atomic.object.Level;
+import Atomic.object.Player;
 import Atomic.util.GColor;
 import Atomic.util.Vector;
 

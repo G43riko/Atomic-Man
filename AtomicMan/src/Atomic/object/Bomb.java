@@ -19,13 +19,15 @@ public class Bomb extends GameObject{
 	private int[] dist;
 	private int damage;
 	private boolean nano;
+	private Vector dir;
 	private GColor range = new GColor(255,255,0,155); 
 	
 	//CONTRUCTORS
 	
-	public Bomb(Vector position,  Level level, int[] dist, int demage, boolean nano){
+	public Bomb(Vector position,  Level level, int[] dist, int demage, boolean nano, Vector dir){
 		super(position);
 		this.nano = nano;
+		this.dir = dir;
 		this.dist = dist;
 		this.level = level;
 		this.damage = demage;
@@ -112,10 +114,11 @@ public class Bomb extends GameObject{
 	public void update(float delta){
 		if(System.currentTimeMillis() - startTime > maxLife && exploded<0){
 			exploded = 40;
-			level.addExplosion(new Explosion(getPosition(), 8, level,10));
+			level.addExplosion(new Explosion(getPosition(), 7, level,10));
 			killBlocksAndEnemies();
 			dead = true;
 		}
+		setPosition(getPosition().add(dir));
 			
 	}
 	

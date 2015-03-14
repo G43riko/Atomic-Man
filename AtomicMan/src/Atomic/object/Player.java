@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import Atomic.core.Input;
+import Atomic.object.weapon.Bullet;
+import Atomic.object.weapon.Rocket;
 import Atomic.util.GColor;
 import Atomic.util.Vector;
 
@@ -18,11 +20,12 @@ public class Player extends GameObject{
 	private int bombs;
 	private int accularity;
 	private int damage;
-
+	private int direction;
+	
 //	private boolean atomBomb;
 //	private boolean fireBomb;
 	private boolean nano;
-//	private boolean skejtboard;
+	private boolean skejtboard;
 //	private boolean kicking;
 //	private boolean shield;
 //	private boolean ghost;
@@ -44,7 +47,7 @@ public class Player extends GameObject{
 		bombs = 1;
 		damage = 100;
 		accularity = 20;
-		nano = false;
+		direction = 2;
 	}
 	
 	//OVERRIDES
@@ -58,6 +61,7 @@ public class Player extends GameObject{
 			}
 			else
 				setPosition(newPos);
+			direction = 0;
 		}
 		if(input.isKeyDown(Input.KEY_S)){ //s
 			Vector newPos = getPosition().add(new Vector(0,speed*delta));
@@ -67,6 +71,7 @@ public class Player extends GameObject{
 			}
 			else
 				setPosition(newPos);
+			direction = 2;
 		}
 		if(input.isKeyDown(Input.KEY_A)){ //a
 			Vector newPos = getPosition().add(new Vector(-speed*delta,0));
@@ -76,6 +81,7 @@ public class Player extends GameObject{
 			}
 			else
 				setPosition(newPos);
+			direction = 3;
 		}
 		if(input.isKeyDown(Input.KEY_D)){ //d
 			Vector newPos = getPosition().add(new Vector(speed*delta, 0));
@@ -85,10 +91,10 @@ public class Player extends GameObject{
 			}
 			else
 				setPosition(newPos);
+			direction = 1;
 		}
 		
 		if(input.isKeyDown(Input.KEY_LCONTROL)){ //d
-			if(level.getNumOfBombs() < bombs)
 			level.addBomb(this);
 		}
 		
@@ -158,6 +164,14 @@ public class Player extends GameObject{
 
 	public boolean isNano() {
 		return nano;
+	}
+
+	public int getDirection() {
+		return direction;
+	}
+
+	public boolean isSkejtboard() {
+		return skejtboard;
 	}
 	
 }

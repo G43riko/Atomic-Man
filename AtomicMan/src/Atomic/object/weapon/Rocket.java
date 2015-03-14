@@ -1,10 +1,16 @@
-package Atomic.object;
+package Atomic.object.weapon;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import Atomic.object.Block;
+import Atomic.object.Enemy;
+import Atomic.object.Level;
+import Atomic.object.Map;
+import Atomic.object.Particle;
+import Atomic.object.Player;
 import Atomic.util.GColor;
 import Atomic.util.Vector;
 
@@ -59,6 +65,15 @@ public class Rocket extends Weapon{
 			if(pointRect(e.getPosition(), new Vector(Player.WIDTH, Player.HEIGHT), getPosition())){
 				e.hit(damage);
 			}
+		}
+		
+		if(getPosition().getX() % 4 <2){
+			float size = 10+(int)(Math.random()*10)-5;
+			int maxLife = 100+(int)(Math.random()*100)-50;
+			float rotSpeed = (float)Math.random()*10-20;
+			float opacity = (float)Math.random()/4 + 0.75f;
+			float fadding = (float)Math.random()/50;
+			level.addParticle(new Particle(getPosition(), new Vector(size, size), Particle.defaultImage, level, maxLife, rotSpeed, opacity, fadding));
 		}
 	}
 	

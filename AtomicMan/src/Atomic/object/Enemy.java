@@ -84,6 +84,14 @@ public class Enemy  extends GameObject{
 		}
 	}
 	
+	public void render(Graphics2D g2){
+		g2.setColor(color);
+		Vector pos = getPosition().sub(level.getOffset());
+		g2.fill3DRect(pos.getXi(), pos.getYi(), Player.WIDTH, Player.HEIGHT, true);
+	}
+
+	//OTHERS
+	
 	public void hit(int damage){
 		health -= damage;
 		
@@ -91,13 +99,10 @@ public class Enemy  extends GameObject{
 			dead = true;
 	}
 	
+	//GETTERS
+
 	public boolean isDead() {
 		return dead;
 	}
 
-	public void render(Graphics2D g2){
-		g2.setColor(color);
-		Vector pos = getPosition().sub(level.getOffset());
-		g2.fill3DRect(pos.getXi(), pos.getYi(), Player.WIDTH, Player.HEIGHT, true);
-	}
 }

@@ -21,9 +21,10 @@ public class Log extends GameObject{
 		String[] logs = new String[]{"FPS: "+fps,
 									 "Nepriatelove: "+level.getNumOfEnemies(),
 									 "Striel: "+level.getNumOfWeapons(),
-									 "Blokov na mape: "+Map.NUM_X*Map.NUM_Y,
+									 "Bômb: "+level.getNumOfBombs(),
+									 "Èastíc: "+level.getNumOfParticles(),
+									 "Blokov: "+level.getMap().getDrawable()+" / "+Map.NUM_X*Map.NUM_Y,
 									// "Znièitelných blokov: "+level.getMap().getDestructible(),
-									 "Vykreslených blokov: "+level.getMap().getDrawable(),
 									 "Pozicia hráèa: "+level.getPlayer().getPosition().toDecimal(5),
 									 "offset: "+level.getOffset().toDecimal(5)
 								};

@@ -1,9 +1,15 @@
-package Atomic.object;
+package Atomic.object.weapon;
 
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import Atomic.object.Block;
+import Atomic.object.Enemy;
+import Atomic.object.GameObject;
+import Atomic.object.Level;
+import Atomic.object.Map;
+import Atomic.object.Player;
 import Atomic.util.GColor;
 import Atomic.util.Vector;
 
@@ -40,11 +46,9 @@ public class Weapon extends GameObject{
 	}
 	
 	public static boolean pointRect(Vector aPos, Vector aSize, Vector bPos){
-		return bPos.getX() > aPos.getX() && bPos.getX() < aPos.getX() + aSize.getX() && bPos.getX() > aPos.getX() && bPos.getX() < aPos.getX() + aSize.getY();
+		return bPos.getX() > aPos.getX() && bPos.getX() < aPos.getX() + aSize.getX() && bPos.getY() > aPos.getY() && bPos.getY() < aPos.getY() + aSize.getY();
 	};
-	
-
-	
+		
 	public void render(Graphics2D g2){
 		g2.setColor(color);
 		Vector pos = getPosition().sub(level.getOffset());

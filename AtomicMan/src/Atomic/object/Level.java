@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import Atomic.component.Explosion;
 import Atomic.core.Input;
+import Atomic.object.weapon.Weapon;
 import Atomic.util.GColor;
 import Atomic.util.ResourceLoader;
 import Atomic.util.Vector;
@@ -23,6 +24,12 @@ public class Level extends GameObject{
 	private ArrayList<Weapon> weapons;
 	private ArrayList<Explosion> explosions;
 	private ArrayList<Bomb> bombs;
+	private ArrayList<Particle> particles;
+	private int drawableEnemies;
+	private int drawableWeapons;
+	private int drawableExplosions;
+	private int drawableBombs;
+	private int drawableParticles;
 
 	//CONSTRUCTORS
 	
@@ -31,6 +38,7 @@ public class Level extends GameObject{
 		bombs = new ArrayList<Bomb>();
 		weapons = new ArrayList<Weapon>();
 		explosions = new ArrayList<Explosion>();
+		particles = new ArrayList<Particle>();
 		backgroundColor = GColor.RED;
 		backgroundImage = ResourceLoader.loadTexture("stadion.jpg");
 		map = new Map(this);
@@ -43,6 +51,15 @@ public class Level extends GameObject{
 		}
 	}
 
+	//OTHERS
+	
+	public boolean isVisible(GameObject o){
+		if(o.getPosition().getX() + Block.WIDTH < offset.getX() || offset.getX()+canvas.getWidth()<o.getPosition().getX() ||
+		   o.getPosition().getY() + Block.HEIGHT < offset.getY() || offset.getY()+canvas.getHeight()<o.getPosition().getY())
+			return false;
+		return true;
+	}
+	
 	//ADDERS
 	
 	public ArrayList<Enemy> getEnemies() {
@@ -56,7 +73,27 @@ public class Level extends GameObject{
 	public void addBomb(Player player) {
 		Vector pos = player.getPosition().add(new Vector(Player.WIDTH/2, Player.HEIGHT/2));
 		pos = getMap().get(pos).getPosition();
-		Bomb b = new Bomb(pos, this, map.calcBombDist(pos, player), player.getDamage(),player.isNano());
+		
+		Vector direction = new Vector();
+		
+		if(player.isSkejtboard()){
+			switch(player.getDirection()){
+				case 0:
+					direction = new Vector(0,-4);
+					break;
+				case 1:
+					direction = new Vector(4,0);
+					break;
+				case 2:
+					direction = new Vector(0,4);
+					break;
+				case 3:
+					direction = new Vector(-4,0);
+					break;
+			}
+		}
+		
+		Bomb b = new Bomb(pos, this, map.calcBombDist(pos, player), player.getDamage(),player.isNano(), direction);
 		if(!bombs.contains(b))
 			bombs.add(b);
 	}
@@ -66,27 +103,60 @@ public class Level extends GameObject{
 		
 	}
 
+	public void addParticle(Particle particle){
+		particles.add(particle);
+	}
+	
 	//OVERRIDES
 	
 	public void render(Graphics2D g2){
+		int drawableEnemies = 0;
+		int drawableWeapons = 0;
+		int drawableExplosions = 0;
+		int drawableBombs = 0;
+		int drawableParticles = 0;
+		
 		map.render(g2);
 		
 		for(Bomb b: bombs)
-			b.renderRangeArea(g2);
+			if(isVisible(b)){
+				drawableBombs++;
+				b.renderRangeArea(g2);
+			}
 		
 		for(Enemy e: enemies)
-			e.render(g2);
-		
+			if(isVisible(e)){
+				drawableEnemies++;
+				e.render(g2);
+			}
 		for(Bomb b: bombs)
-			b.render(g2);
+				b.render(g2);
 		
 		player.render(g2);
 		
 		for(Weapon w: weapons)
-			w.render(g2);
+			if(isVisible(w)){
+				drawableWeapons++;
+				w.render(g2);
+			}
+				
+		
+		for(Particle p: particles)
+			if(isVisible(p)){
+				drawableParticles++;
+				p.render(g2);
+			}
 		
 		for(Explosion e: explosions)
-			e.render(g2);
+			if(isVisible(e)){
+				drawableExplosions++;
+				e.render(g2);
+			}
+		this.drawableEnemies = drawableEnemies;
+		this.drawableWeapons = drawableWeapons;
+		this.drawableExplosions = drawableExplosions;
+		this.drawableBombs = drawableBombs;
+		this.drawableParticles = drawableParticles;
 	}
 	
 	public void input(float delta, Input input){
@@ -132,20 +202,33 @@ public class Level extends GameObject{
 				i--;
 			}
 		}
+		
+		for(int i=0 ; i<particles.size() ; i++){
+			Particle p = particles.get(i);
+			p.update(delta);
+			if(p.isDead()){
+				particles.remove(p);
+				i--;
+			}
+		}
 	}
 	
 	//GETTERS
 	
-	public int getNumOfEnemies(){
-		return enemies.size();
+	public String getNumOfEnemies(){
+		return drawableEnemies+" / "+enemies.size();
 	}
 	
-	public int getNumOfWeapons(){
-		return weapons.size();
+	public String getNumOfWeapons(){
+		return drawableWeapons+" / "+weapons.size();
 	}
 	
-	public int getNumOfBombs(){
-		return bombs.size();
+	public String getNumOfExplosions(){
+		return drawableExplosions+" / "+explosions.size();
+	}
+	
+	public String getNumOfBombs(){
+		return drawableBombs+" / "+bombs.size();
 	}
 	
 	public Color getBackgroundColor() {
@@ -164,7 +247,6 @@ public class Level extends GameObject{
 		return canvas;
 	}
 	
-	
 	public Image getBackgroundImage() {
 		return backgroundImage;
 	}
@@ -173,6 +255,9 @@ public class Level extends GameObject{
 		return player;
 	}
 	
+	public String getNumOfParticles(){
+		return drawableParticles+" / "+particles.size();
+	}
 	
 	//SETTERS
 

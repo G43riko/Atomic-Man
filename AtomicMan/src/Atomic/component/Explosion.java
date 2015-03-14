@@ -46,13 +46,12 @@ public class Explosion extends GameObject{
 		super(pos.sub(offset));
 		this.level = level;
 		size = new Vector(Block.WIDTH + 2*offset, Block.HEIGHT + 2*offset);
-
 		e = explosions.get(id);
-//		image = ResourceLoader.loadTexture(e.n);
 		numOfImages = e.x * e.y;
 		imageWidth = e.i.getWidth(null) / e.x;
 		imageHeight = e.i.getHeight(null) / e.y;
 		actImage = 0;
+		
 	}
 
 	//OTHERS
@@ -79,12 +78,13 @@ public class Explosion extends GameObject{
 		int x1 = x0 + imageWidth;
 		int y1 = y0 + imageHeight;
 		g2.drawImage(e.i, pos.getXi(),pos.getYi(), a.getXi(), a.getYi(), x0, y0,  x1, y1, null);
-		actImage++;
 	}
 	
 	public void update(float delta){
 		if(actImage == numOfImages)
 			dead = true;
+		
+		actImage++;
 	}
 
 	//GETTERS

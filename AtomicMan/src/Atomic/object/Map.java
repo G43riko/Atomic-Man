@@ -49,8 +49,8 @@ public class Map extends GameObject{
 				
 				mapa[i][j].render(g2);
 				res2++;
-				if(mapa[i][j].getType()!=0)
-					res++;
+//				if(mapa[i][j].getType()>0)
+//					res++;
 			}
 		}
 		drawable = res2;
