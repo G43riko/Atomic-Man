@@ -4,9 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.ArrayList;
 
-import Atomic.object.Block;
+import Atomic.map.Block;
 import Atomic.object.GameObject;
-import Atomic.object.Level;
 import Atomic.util.ResourceLoader;
 import Atomic.util.Vector;
 

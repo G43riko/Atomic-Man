@@ -1,4 +1,4 @@
-package Atomic.component;
+package Atomic.core;
 
 import javax.swing.JFrame;
 

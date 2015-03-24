@@ -1,9 +1,11 @@
-package Atomic.object;
+package Atomic.map;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 import Atomic.component.Explosion;
+import Atomic.component.Level;
+import Atomic.object.GameObject;
 import Atomic.util.GColor;
 import Atomic.util.Vector;
 

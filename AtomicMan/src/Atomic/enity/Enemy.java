@@ -1,7 +1,12 @@
-package Atomic.object;
+package Atomic.enity;
 
 import java.awt.Graphics2D;
 
+import Atomic.component.Explosion;
+import Atomic.component.Level;
+import Atomic.map.Block;
+import Atomic.map.Map;
+import Atomic.object.GameObject;
 import Atomic.util.GColor;
 import Atomic.util.Vector;
 
@@ -95,8 +100,11 @@ public class Enemy  extends GameObject{
 	public void hit(int damage){
 		health -= damage;
 		
-		if(health <= 0)
+		if(health <= 0){
 			dead = true;
+			Explosion e = new Explosion(getPosition(),(int)(Math.random()*3),level,20-(int)(Math.random()*6)-3);
+			level.addExplosion(e);
+		}
 	}
 	
 	//GETTERS

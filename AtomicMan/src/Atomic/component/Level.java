@@ -1,14 +1,21 @@
-package Atomic.object;
+package Atomic.component;
 
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import Atomic.component.Explosion;
 import Atomic.core.Input;
-import Atomic.object.weapon.Weapon;
+import Atomic.enity.Bomb;
+import Atomic.enity.Enemy;
+import Atomic.enity.Player;
+import Atomic.enity.weapon.Weapon;
+import Atomic.map.Block;
+import Atomic.map.Map;
+import Atomic.object.GameObject;
+import Atomic.particles.Particle;
 import Atomic.util.GColor;
 import Atomic.util.ResourceLoader;
 import Atomic.util.Vector;
@@ -30,22 +37,18 @@ public class Level extends GameObject{
 	private int drawableExplosions;
 	private int drawableBombs;
 	private int drawableParticles;
-
+	private HashMap<String, Boolean> options;
+	
+	
 	//CONSTRUCTORS
 	
 	public Level(Canvas canvas){
-		enemies = new ArrayList<Enemy>();
-		bombs = new ArrayList<Bomb>();
-		weapons = new ArrayList<Weapon>();
-		explosions = new ArrayList<Explosion>();
-		particles = new ArrayList<Particle>();
-		backgroundColor = GColor.RED;
-		backgroundImage = ResourceLoader.loadTexture("stadion.jpg");
-		map = new Map(this);
 		this.canvas = canvas;
-		player = new Player(this);
+		
 		offset = new Vector(0 - canvas.getWidth() / 2, 0 - canvas.getHeight() / 2);
-		new Explosion();
+
+		init();
+		
 		for(int i=0 ; i<20 ; i++){
 			enemies.add(new Enemy(this));
 		}
@@ -53,11 +56,23 @@ public class Level extends GameObject{
 
 	//OTHERS
 	
-	public boolean isVisible(GameObject o){
-		if(o.getPosition().getX() + Block.WIDTH < offset.getX() || offset.getX()+canvas.getWidth()<o.getPosition().getX() ||
-		   o.getPosition().getY() + Block.HEIGHT < offset.getY() || offset.getY()+canvas.getHeight()<o.getPosition().getY())
-			return false;
-		return true;
+	public void init(){
+		enemies = new ArrayList<Enemy>();
+		bombs = new ArrayList<Bomb>();
+		weapons = new ArrayList<Weapon>();
+		explosions = new ArrayList<Explosion>();
+		particles = new ArrayList<Particle>();
+		
+		backgroundColor = GColor.RED;
+		backgroundImage = ResourceLoader.loadTexture("stadion.jpg");
+		
+		options = new HashMap<String, Boolean>();
+		options.put("showParticles", false);
+		options.put("showLogs", true);
+		
+		player = new Player(this);
+		map = new Map(this);
+		new Explosion();
 	}
 	
 	//ADDERS
@@ -214,6 +229,19 @@ public class Level extends GameObject{
 	}
 	
 	//GETTERS
+	
+	public boolean isVisible(GameObject o){
+		if(o.getPosition().getX() + Block.WIDTH < offset.getX() || offset.getX()+canvas.getWidth()<o.getPosition().getX() ||
+		   o.getPosition().getY() + Block.HEIGHT < offset.getY() || offset.getY()+canvas.getHeight()<o.getPosition().getY())
+			return false;
+		return true;
+	}
+	
+	public boolean get(String s){
+		if(!options.containsKey(s))
+			return false;
+		return options.get(s);
+	}
 	
 	public String getNumOfEnemies(){
 		return drawableEnemies+" / "+enemies.size();

@@ -5,12 +5,11 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 
-import Atomic.component.Window;
-import Atomic.object.Block;
+import Atomic.component.Level;
+import Atomic.component.Log;
+import Atomic.map.Block;
+import Atomic.map.Map;
 import Atomic.object.GameObject;
-import Atomic.object.Level;
-import Atomic.object.Log;
-import Atomic.object.Map;
 
 public abstract class CoreGame {
 	private boolean isRunning;
@@ -21,7 +20,6 @@ public abstract class CoreGame {
 	private Level level;
 	public  Input input;
 	private Log log;
-	private boolean showLogs = true;
 	private ArrayList<GameObject> scene = new ArrayList<GameObject>();
 	
 	public abstract void init();
@@ -44,6 +42,8 @@ public abstract class CoreGame {
 		scene.add(level);
 		log.setLevel(level);
 	}
+	
+	//OTHERS
 	
 	public void start(float fps){
 		frameTime = 1000/fps;
@@ -90,7 +90,7 @@ public abstract class CoreGame {
 		for(GameObject g :scene){
 			g.render(g2);
 		}
-		if(showLogs)
+		if(level.get("showLogs"))
 			log.render(g2);
 	}
 	

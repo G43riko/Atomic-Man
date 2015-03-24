@@ -12,6 +12,10 @@ public class Vector {
 		this.y=y;
 	};
 	
+	public boolean isInRect(Vector aPos, Vector aSize){
+		return x > aPos.getX() && x < aPos.getX() + aSize.getX() && y > aPos.getY() && y < aPos.getY() + aSize.getY();
+	}
+	
 	public Vector(Vector v){
 		this.x = v.getX();
 		this.y = v.getY();

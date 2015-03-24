@@ -1,9 +1,9 @@
-package Atomic.object.weapon;
+package Atomic.enity.weapon;
 
 import java.awt.Color;
 
-import Atomic.object.Level;
-import Atomic.object.Player;
+import Atomic.component.Level;
+import Atomic.enity.Player;
 import Atomic.util.GColor;
 import Atomic.util.Vector;
 
@@ -12,6 +12,7 @@ public class Bullet extends Weapon{
 	public final static int HEIGHT = 4;
 	public final static int STROKE = 4;
 	
+	public final static int CADENCE = 100;
 	
 	//CONSTRUCTORS
 	

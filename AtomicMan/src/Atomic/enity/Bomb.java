@@ -1,9 +1,12 @@
-package Atomic.object;
+package Atomic.enity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
 import Atomic.component.Explosion;
+import Atomic.component.Level;
+import Atomic.map.Block;
+import Atomic.object.GameObject;
 import Atomic.util.GColor;
 import Atomic.util.Vector;
 
@@ -85,6 +88,10 @@ public class Bomb extends GameObject{
 			a = level.getMap().get(new Vector(getPosition().add(new Vector(dist[3]*-Block.WIDTH,0))));
 			if(a != null && a.getType()>0)
 				a.hit(damage);
+		}
+		
+		for(Enemy e : level.getEnemies()){
+			
 		}
 	}
 	

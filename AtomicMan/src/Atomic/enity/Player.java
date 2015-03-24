@@ -1,11 +1,15 @@
-package Atomic.object;
+package Atomic.enity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import Atomic.component.Level;
 import Atomic.core.Input;
-import Atomic.object.weapon.Bullet;
-import Atomic.object.weapon.Rocket;
+import Atomic.enity.weapon.Bullet;
+import Atomic.enity.weapon.Rocket;
+import Atomic.map.Block;
+import Atomic.map.Map;
+import Atomic.object.GameObject;
 import Atomic.util.GColor;
 import Atomic.util.Vector;
 
@@ -21,6 +25,13 @@ public class Player extends GameObject{
 	private int accularity;
 	private int damage;
 	private int direction;
+	
+	private static int upKey = Input.KEY_W;
+	private static int downKey = Input.KEY_S;
+	private static int rightKey = Input.KEY_D;
+	private static int leftKey = Input.KEY_A;
+	
+	private double lastShot = System.currentTimeMillis();
 	
 //	private boolean atomBomb;
 //	private boolean fireBomb;
@@ -53,7 +64,7 @@ public class Player extends GameObject{
 	//OVERRIDES
 	
 	public void input(float delta,Input input){
-		if(input.isKeyDown(Input.KEY_W)){
+		if(input.isKeyDown(upKey)){
 			Vector newPos = getPosition().add(new Vector(0,-speed*delta));
 			if(level.getMap().isCollision(newPos) ||
 			  (getPosition().getX()%Block.WIDTH != 0 && (getPosition().getX()+WIDTH)%Block.WIDTH != 0 && level.getMap().isCollision(newPos.add(new Vector(WIDTH,0))))){
@@ -63,7 +74,7 @@ public class Player extends GameObject{
 				setPosition(newPos);
 			direction = 0;
 		}
-		if(input.isKeyDown(Input.KEY_S)){ //s
+		if(input.isKeyDown(downKey)){ //s
 			Vector newPos = getPosition().add(new Vector(0,speed*delta));
 			if(level.getMap().isCollision(newPos.add(new Vector(0,HEIGHT))) ||
 			  ((getPosition().getX()+WIDTH)%Block.WIDTH != 0 && level.getMap().isCollision(newPos.add(new Vector(WIDTH,HEIGHT))))){
@@ -73,7 +84,7 @@ public class Player extends GameObject{
 				setPosition(newPos);
 			direction = 2;
 		}
-		if(input.isKeyDown(Input.KEY_A)){ //a
+		if(input.isKeyDown(leftKey)){ //a
 			Vector newPos = getPosition().add(new Vector(-speed*delta,0));
 			if(level.getMap().isCollision(newPos) ||
 			  (getPosition().getY()%Block.HEIGHT != 0 && (getPosition().getY()+HEIGHT)%Block.HEIGHT != 0 && level.getMap().isCollision(newPos.add(new Vector(0,HEIGHT))))){
@@ -83,7 +94,7 @@ public class Player extends GameObject{
 				setPosition(newPos);
 			direction = 3;
 		}
-		if(input.isKeyDown(Input.KEY_D)){ //d
+		if(input.isKeyDown(rightKey)){ //d
 			Vector newPos = getPosition().add(new Vector(speed*delta, 0));
 			if(level.getMap().isCollision(newPos.add(new Vector(WIDTH,0))) ||
 			  ((getPosition().getY()+HEIGHT)%Block.HEIGHT != 0 && level.getMap().isCollision(newPos.add(new Vector(WIDTH,HEIGHT))))){
@@ -99,16 +110,19 @@ public class Player extends GameObject{
 		}
 		
 		
-		if(input.isMouseDown(1)){
+		if(input.isMouseDown(1) && System.currentTimeMillis() - lastShot > Bullet.CADENCE){
+			
 			Vector realMousePos = input.getMousePos().add(level.getOffset());
 			Vector pos = getPosition().add(new Vector(WIDTH/2, HEIGHT/2));
 			level.addWeapon(new Bullet(level, realMousePos.sub(pos).Normalized(),accularity,damage/20));
+			lastShot = System.currentTimeMillis();
 		}
 		
-		if(input.isMouseDown(3)){
+		if(input.isMouseDown(3) && System.currentTimeMillis() - lastShot > Rocket.CADENCE){
 			Vector realMousePos = input.getMousePos().add(level.getOffset());
 			Vector pos = getPosition().add(new Vector(WIDTH/2, HEIGHT/2));
 			level.addWeapon(new Rocket(level, realMousePos.sub(pos).Normalized(),accularity,damage));
+			lastShot = System.currentTimeMillis();
 		}
 	}
 	

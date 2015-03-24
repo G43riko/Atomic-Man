@@ -1,7 +1,10 @@
-package Atomic.object;
+package Atomic.component;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+
+import Atomic.map.Map;
+import Atomic.object.GameObject;
 
 public class Log extends GameObject{
 	private Level level;

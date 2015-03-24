@@ -1,16 +1,16 @@
-package Atomic.object.weapon;
+package Atomic.enity.weapon;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-import Atomic.object.Block;
-import Atomic.object.Enemy;
-import Atomic.object.Level;
-import Atomic.object.Map;
-import Atomic.object.Particle;
-import Atomic.object.Player;
+import Atomic.component.Level;
+import Atomic.enity.Enemy;
+import Atomic.enity.Player;
+import Atomic.map.Block;
+import Atomic.map.Map;
+import Atomic.particles.Particle;
 import Atomic.util.GColor;
 import Atomic.util.Vector;
 
@@ -19,6 +19,8 @@ public class Rocket extends Weapon{
 	public final static int HEIGHT = 4;
 	public final static int STROKE = 6;
 	public final static float ACCELERATION = 0.1f;
+	
+	public final static int CADENCE = 1000;
 	
 	private float maxSpeed;
 	//CONSTRUCTORS
@@ -51,23 +53,25 @@ public class Rocket extends Weapon{
 		
 		setPosition(getPosition().add(dir.mul(speed)));
 		
-		if(getPosition().getX() + size <= 0 || getPosition().getX() - size >= Map.NUM_X * Block.WIDTH || 
-		   getPosition().getY() + size <= 0 || getPosition().getY() - size >= Map.NUM_Y * Block.HEIGHT){
+		if(isOutOfView()){
 			dead = true;
 		}
+		
 		Block b = level.getMap().get(getPosition().add(dir));
 		if(b.getType()!=0){
 			b.hit(damage);
 			dead = true;
 		}
+		
 		ArrayList<Enemy> enemies = level.getEnemies();
 		for(Enemy e : enemies){
-			if(pointRect(e.getPosition(), new Vector(Player.WIDTH, Player.HEIGHT), getPosition())){
+			if(getPosition().isInRect(e.getPosition(), new Vector(Player.WIDTH, Player.HEIGHT))){
 				e.hit(damage);
+				dead = true;
 			}
 		}
 		
-		if(getPosition().getX() % 4 <2){
+		if(level.get("showParticles") && getPosition().getX() % 4 <2){
 			float size = 10+(int)(Math.random()*10)-5;
 			int maxLife = 100+(int)(Math.random()*100)-50;
 			float rotSpeed = (float)Math.random()*10-20;
@@ -81,7 +85,7 @@ public class Rocket extends Weapon{
 		g2.setColor(color);
 		Vector pos = getPosition().sub(level.getOffset());
 		Vector sur  = pos.sub(dir.mul(10));
-		g2.setStroke(new BasicStroke(stroke));
+		g2.setStroke(new BasicStroke(stroke, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
 		
 		g2.drawLine(pos.getXi(), pos.getYi(), sur.getXi(), sur.getYi());
 	}

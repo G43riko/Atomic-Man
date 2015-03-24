@@ -1,7 +1,11 @@
-package Atomic.object;
+package Atomic.map;
 
 import java.awt.Graphics2D;
 
+import Atomic.component.Level;
+import Atomic.enity.Bomb;
+import Atomic.enity.Player;
+import Atomic.object.GameObject;
 import Atomic.util.Vector;
 
 public class Map extends GameObject{

@@ -1,10 +1,12 @@
-package Atomic.object;
+package Atomic.particles;
 
 import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 
+import Atomic.component.Level;
+import Atomic.object.GameObject;
 import Atomic.util.ResourceLoader;
 import Atomic.util.Vector;
 
