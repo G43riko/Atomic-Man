@@ -9,5 +9,4 @@ public class MainAtom {
 		game.init();
 		game.start(60);
 	}
-
 }

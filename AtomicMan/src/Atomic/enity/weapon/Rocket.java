@@ -9,7 +9,6 @@ import Atomic.component.Level;
 import Atomic.enity.Enemy;
 import Atomic.enity.Player;
 import Atomic.map.Block;
-import Atomic.map.Map;
 import Atomic.particles.Particle;
 import Atomic.util.GColor;
 import Atomic.util.Vector;
